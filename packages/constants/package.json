@@ -1,0 +1,6 @@
+{
+  "name": "@setaria-components/constants",
+  "private": true,
+  "license": "MIT",
+  "main": "index.ts"
+}

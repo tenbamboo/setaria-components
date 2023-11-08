@@ -1,0 +1,2 @@
+sed -i 's/"name": "setaria-components",/"name": "@setaria-components\/nightly",/' packages/setaria-components/package.json
+sed -i '2s/setaria-components/@setaria-components\/nightly/' internal/build-constants/src/pkg.ts

@@ -1,7 +1,9 @@
 <template>
   <sc-schema-form
+    ref="formRef"
     v-model="formValue"
     :schema="schema"
+    :rules="rules"
     label-width="130px"
     label-suffix=":"
     columns="2"
@@ -11,22 +13,27 @@
     </template>
   </sc-schema-form>
   {{ formValue }}
-  <!-- <el-button @click="test1">test</el-button> -->
+  <el-button @click="submit">submit</el-button>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElRate } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import type { SchemaProps } from 'setaria-components'
+
+const formRef = ref<FormInstance>()
 const formValue = reactive({
   testCustomSlot: 3,
 })
 const schema = reactive<SchemaProps>({
-  required: [],
+  required: ['testString', 'testDesc', 'testNumber', 'testSelect1'],
   properties: {
     testString: {
       type: 'string',
       title: '测试String',
+      minLength: 2,
+      maxLength: 5,
     },
     testDesc: {
       type: 'string',
@@ -36,7 +43,8 @@ const schema = reactive<SchemaProps>({
     testNumber: {
       type: 'number',
       title: '测试数值',
-      scale: 2,
+      minLength: 2,
+      maxLength: 5,
     },
     testDate: {
       type: 'string',
@@ -107,6 +115,41 @@ const schema = reactive<SchemaProps>({
     },
   },
 })
+
+const rules = {
+  testString: [
+    {
+      validator: (rule: any, value: any, callback: any) => {
+        if (!value?.includes('Hello')) {
+          callback(new Error('需包含Hello字样'))
+        }
+        callback()
+      },
+      trigger: 'blur',
+    },
+  ],
+  testNumber: [
+    {
+      validator: (rule: any, value: any, callback: any) => {
+        if (value > 10 || value < 5) {
+          callback(new Error('需小于10且大于5'))
+        }
+        callback()
+      },
+      trigger: 'change',
+    },
+  ],
+}
+
+const submit = () => {
+  formRef.value?.validate((valid, fields) => {
+    if (valid) {
+      console.log('submit!')
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
 </script>
 <style scoped>
 .el-alert {

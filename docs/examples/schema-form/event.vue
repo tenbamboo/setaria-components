@@ -5,6 +5,7 @@
     label-width="130px"
     label-suffix=":"
     columns="2"
+    @change="handlerChange"
   >
     <template #testCustomSlot="scope">
       <el-rate v-model="scope.testCustomSlot" />
@@ -107,6 +108,10 @@ const schema = reactive<SchemaProps>({
     },
   },
 })
+
+const handlerChange = (schemaKey, val, model) => {
+  console.log(schemaKey, val, model)
+}
 </script>
 <style scoped>
 .el-alert {

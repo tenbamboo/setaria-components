@@ -43,7 +43,7 @@
   },
   "peerDependencies": {
     "element-plus": "2.4.1",
-    "vue": "^3.2.0"
+    "vue": "^3.3.0"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.6",

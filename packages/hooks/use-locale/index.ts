@@ -1,6 +1,6 @@
 import { computed, inject, isRef, ref, unref } from 'vue'
 import { get } from 'lodash-unified'
-import English from '@setaria-components/locale/lang/en'
+import Zhcn from '@setaria-components/locale/lang/zh-cn'
 
 import type { MaybeRef } from '@vueuse/core'
 import type { InjectionKey, Ref } from 'vue'
@@ -46,5 +46,5 @@ export const localeContextKey: InjectionKey<Ref<Language | undefined>> =
 
 export const useLocale = (localeOverrides?: Ref<Language | undefined>) => {
   const locale = localeOverrides || inject(localeContextKey, ref())!
-  return buildLocaleContext(computed(() => locale.value || English))
+  return buildLocaleContext(computed(() => locale.value || Zhcn))
 }

@@ -2,12 +2,15 @@ import { formProps } from 'element-plus'
 import { buildProps } from '@setaria-components/utils'
 // import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@setaria-components/constants'
 import type { ExtractPropTypes, PropType } from 'vue'
-import type { SchemaProps } from '../../common-schema/schema.type'
+import type {
+  SchemaProps,
+  SchemaUiProps,
+} from '../../common-schema/schema.type'
 
 export const schemaFormProps = buildProps({
   ...formProps,
   modelValue: {
-    type: Object,
+    type: Object as PropType<Record<string, any>>,
     required: true,
   },
   schema: {
@@ -15,14 +18,16 @@ export const schemaFormProps = buildProps({
     required: true,
   },
   uiSchema: {
-    type: Object,
+    type: Object as PropType<Record<string, SchemaUiProps>>,
     default() {
       return {}
     },
   },
   columns: {
-    type: Number,
-    default: 4,
+    type: [String, Number],
+    default: () => {
+      return 4
+    },
   },
   // columnMaxLabelLength: Number,
   // rules: Object,

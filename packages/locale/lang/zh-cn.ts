@@ -12,5 +12,13 @@ export default {
       validate2: '长度只能在{minLength}-{maxLength}个字符之间',
       validate3: '长度必须小于{minLength}个字符',
     },
+    searchForm: {
+      collapse: '收起',
+      expand: '展开',
+      submit: '提交',
+      reset: '重置',
+      search: '搜索',
+      cancel: '取消',
+    },
   },
 }

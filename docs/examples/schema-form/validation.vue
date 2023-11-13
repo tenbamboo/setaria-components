@@ -13,7 +13,6 @@
     </template>
   </sc-schema-form>
   {{ formValue }}
-  <el-button @click="submit">submit</el-button>
 </template>
 
 <script lang="ts" setup>

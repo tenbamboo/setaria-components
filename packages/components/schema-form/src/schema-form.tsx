@@ -11,7 +11,6 @@ import {
   ref,
   // watch,
   // ref,
-  withModifiers,
 } from 'vue'
 // import { useResizeObserver } from '@vueuse/core'
 // import { throwError } from '@element-plus/utils'
@@ -34,6 +33,7 @@ import type { VNode } from 'vue'
 export default defineComponent({
   name: 'ScSchemaForm',
   props: schemaFormProps,
+  emits: ['input', 'data-change'],
 
   setup(props, { slots, emit, expose }) {
     const formRef = ref<FormInstance>()
@@ -60,6 +60,7 @@ export default defineComponent({
           createLayoutWrapper(
             componentList,
             uiSchema,
+            slots,
             +props.columns,
             labelWidth
           ),
@@ -100,6 +101,7 @@ export default defineComponent({
           // }, ['prevent'])}
         >
           {componentList}
+          {slots.default?.()}
         </ElForm>
       )
     }

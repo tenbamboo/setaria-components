@@ -1,17 +1,35 @@
 <template>
-  <sc-schema-form
+  <sc-search-form
     v-model="formValue"
     :schema="schema"
     label-width="130px"
     label-suffix=":"
     columns="2"
-    @data-change="handlerChange"
+    :button-layout="['collapse', 'searchReset', 'search']"
   >
     <template #testCustomSlot="scope">
       <el-rate v-model="scope.testCustomSlot" />
     </template>
-  </sc-schema-form>
-  {{ formValue }}
+  </sc-search-form>
+
+  <hr />
+
+  <h3>自定义插槽按钮</h3>
+  <sc-search-form
+    v-model="formValue"
+    :schema="schema"
+    label-width="130px"
+    label-suffix=":"
+    columns="2"
+    :button-layout="['search', 'searchReset', 'slot', 'collapse']"
+  >
+    <template #testCustomSlot="scope">
+      <el-rate v-model="scope.testCustomSlot" />
+    </template>
+    <template #button>
+      <el-button>自定义按钮</el-button>
+    </template>
+  </sc-search-form>
   <!-- <el-button @click="test1">test</el-button> -->
 </template>
 
@@ -20,6 +38,15 @@ import { reactive, ref } from 'vue'
 import { ElRate } from 'element-plus'
 import type { SchemaProps } from 'setaria-components'
 const formValue = reactive({
+  testString: null,
+  testDesc: null,
+  testNumber: null,
+  testDate: null,
+  testDateTime: null,
+  testTime: null,
+  testCurrency: null,
+  testSelect1: null,
+  testSelect2: null,
   testCustomSlot: 3,
 })
 const schema = reactive<SchemaProps>({
@@ -108,17 +135,7 @@ const schema = reactive<SchemaProps>({
     },
   },
 })
-
-const handlerChange = (schemaKey, val, model) => {
-  console.log(schemaKey, val, model)
+const handlerChange = (key, value, model) => {
+  console.log('change', key, value, model)
 }
 </script>
-<style scoped>
-.el-alert {
-  margin: 20px 0 0;
-}
-
-.el-alert:first-child {
-  margin: 0;
-}
-</style>

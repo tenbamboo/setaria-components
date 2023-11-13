@@ -5,10 +5,14 @@
     label-width="130px"
     label-suffix=":"
     columns="2"
-    @data-change="handlerChange"
   >
     <template #testCustomSlot="scope">
       <el-rate v-model="scope.testCustomSlot" />
+    </template>
+
+    <template #row="scope">
+      <el-col :span="scope.span">我是自定义Col内容1</el-col>
+      <el-col :span="scope.span">我是自定义Col内容2</el-col>
     </template>
   </sc-schema-form>
   {{ formValue }}
@@ -108,10 +112,6 @@ const schema = reactive<SchemaProps>({
     },
   },
 })
-
-const handlerChange = (schemaKey, val, model) => {
-  console.log(schemaKey, val, model)
-}
 </script>
 <style scoped>
 .el-alert {

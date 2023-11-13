@@ -48,11 +48,11 @@ schema-form/event
 
 ## 插槽
 
-<!-- :::demo 可通过`schema.required`属性来控制表单中的必填项，也可通过`rules`属性来自定义校验规则
+:::demo
 
-schema-form/validation
+schema-form/slots
 
-::: -->
+:::
 
 ## SchemaForm API
 
@@ -70,9 +70,9 @@ schema-form/validation
 
 ### SchemaForm Events
 
-| 名称   | 说明             | 类型                                         |
-| ------ | ---------------- | -------------------------------------------- |
-| change | 表单项值变更触发 | ^[Function]`(schemaKey, val, model) => void` |
+| 名称        | 说明                 | 类型                                         |
+| ----------- | -------------------- | -------------------------------------------- |
+| data-change | 表单项数据值变更触发 | ^[Function]`(schemaKey, val, model) => void` |
 
 ### SchemaForm Exposes
 
@@ -89,3 +89,4 @@ schema-form/validation
 | 插槽名   | 说明                 |
 | -------- | -------------------- |
 | [字段名] | 对应表单项自定义插槽 |
+| row      | 对应 ElRow 下的插槽  |

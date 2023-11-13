@@ -1,16 +1,20 @@
 <template>
-  <sc-schema-form
+  <sc-search-form
     v-model="formValue"
     :schema="schema"
     label-width="130px"
     label-suffix=":"
     columns="2"
+    :submitting="formSubmitting"
     @data-change="handlerChange"
+    @data-submit="handlerSubmit"
+    @data-reset="handlerReset"
+    @collapse-change="handlerCollapseChange"
   >
     <template #testCustomSlot="scope">
       <el-rate v-model="scope.testCustomSlot" />
     </template>
-  </sc-schema-form>
+  </sc-search-form>
   {{ formValue }}
   <!-- <el-button @click="test1">test</el-button> -->
 </template>
@@ -20,6 +24,15 @@ import { reactive, ref } from 'vue'
 import { ElRate } from 'element-plus'
 import type { SchemaProps } from 'setaria-components'
 const formValue = reactive({
+  testString: null,
+  testDesc: null,
+  testNumber: null,
+  testDate: null,
+  testDateTime: null,
+  testTime: null,
+  testCurrency: null,
+  testSelect1: null,
+  testSelect2: null,
   testCustomSlot: 3,
 })
 const schema = reactive<SchemaProps>({
@@ -108,17 +121,26 @@ const schema = reactive<SchemaProps>({
     },
   },
 })
-
-const handlerChange = (schemaKey, val, model) => {
-  console.log(schemaKey, val, model)
+const handlerChange = (key, value, model) => {
+  console.log('change', key, value, model)
+}
+const handlerReset = () => {
+  console.log('reset')
+}
+const handlerSubmit = (model) => {
+  // 这里只是单独数据提交回调，如果想配合异步使用，请使用submitting属性
+  console.log('submit', model)
+}
+const handlerCollapseChange = (expand) => {
+  console.log('collapse', expand)
+}
+const formSubmitting = (model) => {
+  // 这里模拟一个接口的返回
+  return new Promise((resolve) => {
+    console.log('formSubmitting', model)
+    setTimeout(() => {
+      resolve({})
+    }, 2500)
+  })
 }
 </script>
-<style scoped>
-.el-alert {
-  margin: 20px 0 0;
-}
-
-.el-alert:first-child {
-  margin: 0;
-}
-</style>

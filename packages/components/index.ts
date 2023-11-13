@@ -70,8 +70,9 @@
 // export * from './upload'
 // export * from './virtual-list'
 // export * from './watermark'
-export * from './hello-would'
+// export * from './hello-would'
 export * from './schema-form'
+export * from './search-form'
 export * from './common-schema'
 
 // plugins

@@ -3,12 +3,12 @@
     "text": "测试组件",
     "children": [
       {
-        "link": "/hello-would",
-        "text": "Hello would"
-      },
-      {
         "link": "/schema-form",
         "text": "Schema Form"
+      },
+      {
+        "link": "/search-form",
+        "text": "Search Form"
       }
     ]
   }

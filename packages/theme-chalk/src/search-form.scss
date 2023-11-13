@@ -1,0 +1,65 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(search-form) {
+  .sc-search-form-button-area {
+    text-align: right;
+  }
+  .sc-expand-button {
+    margin-left: 10px;
+    margin-right: 10px;
+    i {
+      vertical-align: text-top;
+    }
+    span {
+      margin-left: 5px;
+    }
+  }
+}
+
+// @include b(schema-form) {
+//   @include set-component-css-var('schema-form', $schema-form);
+
+//   // display: flex;
+//   // justify-content: center;
+//   // align-items: center;
+//   // flex-direction: column;
+//   // text-align: center;
+//   // box-sizing: border-box;
+//   // padding: getCssVar('empty-padding');
+
+//   // @include e(el-data) {
+//   //   width: getCssVar('empty-image-width');
+
+//   //   img {
+//   //     user-schema-form: none;
+//   //     width: 100%;
+//   //     height: 100%;
+//   //     vertical-align: top;
+//   //     object-fit: contain;
+//   //   }
+
+//   //   svg {
+//   //     color: getCssVar('svg-monochrome-grey');
+//   //     fill: currentColor;
+//   //     width: 100%;
+//   //     height: 100%;
+//   //     vertical-align: top;
+//   //   }
+//   // }
+
+//   // @include e(description) {
+//   //   margin-top: getCssVar('empty-description-margin-top');
+
+//   //   p {
+//   //     margin: 0;
+//   //     font-size: getCssVar('font-size', 'base');
+//   //     color: getCssVar('text-color', 'secondary');
+//   //   }
+//   // }
+
+//   // @include e(bottom) {
+//   //   margin-top: getCssVar('empty-bottom-margin-top');
+//   // }
+// }

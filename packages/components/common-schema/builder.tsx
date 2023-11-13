@@ -47,34 +47,41 @@ export function getComponentPlaceholder(property: SchemaProperties) {
 export function createLayoutWrapper(
   componentList: VNode[],
   uiSchema: Record<string, SchemaUiProps>,
+  slots: Slots,
   columns: number,
   labelWidth: string | number
 ): VNode {
+  const getSpan = (colspan?: any) => {
+    let uiColspan = colspan || ''
+
+    uiColspan = +uiColspan > columns ? columns : uiColspan
+    return (uiColspan =
+      typeof uiColspan === 'number' ? (24 / columns) * uiColspan : 24 / columns)
+  }
   const getColList = () => {
     return componentList.map((component) => {
       const key = component?.props?.prop
       const uiSchemaItem = uiSchema[key] || {}
-      let uiColspan = uiSchemaItem.colspan || ''
-
-      uiColspan = +uiColspan > columns ? columns : uiColspan
-      uiColspan =
-        typeof uiColspan === 'number'
-          ? (24 / columns) * uiColspan
-          : 24 / columns
-
+      const span = getSpan(uiSchemaItem.colspan)
       return (
         <ElCol
-          span={uiColspan}
+          span={span}
           xs={24}
           style={{ display: uiSchemaItem.visible === false ? 'none' : '' }}
         >
           {component}
         </ElCol>
       )
-    })
+    }) as VNode[]
   }
 
-  return (<ElRow gutter={labelWidth ? 10 : 20}>{getColList()}</ElRow>) as VNode
+  let colList = getColList()
+
+  if (slots?.row) {
+    colList = colList.concat(slots.row({ span: getSpan() }))
+  }
+
+  return (<ElRow gutter={labelWidth ? 10 : 20}>{colList}</ElRow>) as VNode
 
   // for (let index = 0; index < formItemArray.length; index += 1) {
   //   const formItem = formItemArray[index];
@@ -215,7 +222,7 @@ export const createSchemaFormItem = (
       'onUpdate:modelValue': handlerInput,
       onInput: handlerInput,
       onChange: (val: any) => {
-        emit('change', schemaKey, val, model)
+        emit('data-change', schemaKey, val, model)
       },
       disabled: uiSchema?.[schemaKey]?.disabled,
       readonly: uiSchema?.[schemaKey]?.readonly,

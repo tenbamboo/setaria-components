@@ -48,3 +48,7 @@ export const schemaFormProps = buildProps({
 // }
 
 export type SchemaFormProps = ExtractPropTypes<typeof schemaFormProps>
+
+export declare interface SlotRowProps {
+  span?: number
+}

@@ -215,17 +215,18 @@ export default defineComponent({
         //  额外插槽
         slot: slots.button ? slots.button() : null,
         // 收起展开按钮
-        collapse: (
-          <ElLink
-            class="sc-expand-button"
-            type="primary"
-            underline={false}
-            onClick={handleCollapse}
-          >
-            {getExpandTextLabel()}
-            {/* {totalColSpan >= this.columns ? getExpandTextLabel() : null} */}
-          </ElLink>
-        ),
+        collapse:
+          props.collapse && totalColSpan.value >= +props.columns ? (
+            <ElLink
+              class="sc-expand-button"
+              type="primary"
+              underline={false}
+              onClick={handleCollapse}
+            >
+              {getExpandTextLabel()}
+              {/* {totalColSpan >= this.columns ? getExpandTextLabel() : null} */}
+            </ElLink>
+          ) : null,
       }
 
       return (

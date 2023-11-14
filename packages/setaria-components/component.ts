@@ -46,7 +46,7 @@
 //   ElDropdownMenu,
 // } from '@setaria-components/components/dropdown'
 // import { ElEmpty } from '@setaria-components/components/empty'
-import { ScHelloWould } from '@setaria-components/components/hello-would'
+// import { ScHelloWould } from '@setaria-components/components/hello-would'
 import { ScSchemaForm } from '@setaria-components/components/schema-form'
 import { ScSearchForm } from '@setaria-components/components/search-form'
 // import { ElForm, ElFormItem } from '@setaria-components/components/form'
@@ -109,4 +109,4 @@ import { ScSearchForm } from '@setaria-components/components/search-form'
 
 import type { Plugin } from 'vue'
 
-export default [ScHelloWould, ScSchemaForm, ScSearchForm] as Plugin[]
+export default [ScSchemaForm, ScSearchForm] as Plugin[]

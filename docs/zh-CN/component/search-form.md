@@ -19,7 +19,7 @@ search-form/basic
 
 ## 收起时控制强制显示内容
 
-:::demo 通过`force-collapse-columns`属性来控制表单收起时强制显示几个列
+:::demo 通过`force-collapse-items`属性来控制表单收起时强制显示几个列
 
 search-form/force-columns
 

@@ -5,7 +5,7 @@
     label-width="130px"
     label-suffix=":"
     columns="2"
-    :force-collapse-columns="4"
+    :force-collapse-items="4"
     @data-change="handlerChange"
   >
     <template #testCustomSlot="scope">

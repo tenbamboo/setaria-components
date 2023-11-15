@@ -36,7 +36,7 @@ const currentLink = computed(() => {
         <a :href="currentLink">
           <img
             class="logo"
-            src="/images/setaria-components-logo.svg"
+            src="/images/element-plus-logo.svg"
             alt="Element Plus Logo"
           />
         </a>

@@ -57,7 +57,7 @@ export const config: UserConfig = {
     editLinkText: 'Edit this page on GitHub',
     lastUpdated: 'Last Updated',
 
-    logo: '/images/setaria-components-logo.svg',
+    logo: '/images/element-plus-logo.svg',
     logoSmall: '/images/setaria-components-logo-small.svg',
     sidebars,
     nav,

@@ -3,7 +3,7 @@ import {
   computed,
   // defineExpose,
   defineComponent,
-  reactive,
+  // reactive,
   // nextTick,
   // onBeforeUnmount,
   // onMounted,
@@ -27,14 +27,16 @@ import {
   Search,
 } from '@element-plus/icons-vue'
 import { cloneDeep, isEmpty } from 'lodash-unified'
-import ScSchemaForm from '@setaria-components/components/schema-form'
+import ScSchemaForm, {
+  schemaFormProps,
+} from '@setaria-components/components/schema-form'
 // import {
 //   createLayoutWrapper,
 //   createSearchFormItem,
 //   createSearchFormRules,
 // } from '../../common-search/builder'
 import { useLocale } from '@setaria-components/hooks'
-import { searchFormProps } from './search-form'
+import { buildProps } from '@setaria-components/utils'
 import type {
   SchemaFormInstance,
   SlotRowProps,
@@ -42,7 +44,42 @@ import type {
 import type { FormItemProp, FormValidateCallback } from 'element-plus'
 import type { SchemaUiProps } from '../../common-schema/schema.type'
 
-// import type { VNode } from 'vue'
+// import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@setaria-components/constants'
+import type { ExtractPropTypes, PropType } from 'vue'
+// import type {
+
+export const searchFormProps = buildProps({
+  ...schemaFormProps,
+  // modelValue: {
+  //   type: Object as PropType<Record<string, any>>,
+  //   required: true,
+  // },
+  buttonLayout: {
+    type: Array as PropType<
+      Array<'search' | 'searchReset' | 'collapse' | 'reset' | 'submit' | 'slot'>
+    >,
+    default: () => {
+      return ['search', 'searchReset', 'collapse']
+    },
+  },
+
+  collapse: {
+    type: Boolean,
+    default: true,
+  },
+  expand: {
+    type: Boolean,
+    default: false,
+  },
+  forceCollapseItems: {
+    type: Number,
+  },
+  submitting: {
+    type: Function,
+  },
+} as const)
+
+export type SearchFormProps = ExtractPropTypes<typeof searchFormProps>
 
 export default defineComponent({
   name: 'ScSearchForm',

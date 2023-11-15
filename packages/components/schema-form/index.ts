@@ -1,6 +1,6 @@
 import { withInstall } from '@setaria-components/utils'
 
-import SchemaForm from './src/schema-form.tsx'
+import SchemaForm from './src/schema-form'
 
 export const ScSchemaForm = withInstall(SchemaForm)
 export default ScSchemaForm

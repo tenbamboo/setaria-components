@@ -240,12 +240,20 @@ export const createSchemaFormItem = (
 
   // 获取组件的VNode内容
   const getComponent = () => {
-    let component = null
+    let component: VNode | null = null
 
     if (slots[schemaKey]) {
       // 自定义插槽内容
       // const method: Slot = slots[schemaKey] as Slot
-      component = (slots[schemaKey] as Slot)(model)
+      const slotFunction = slots[schemaKey] as Slot
+      const result = slotFunction(model)
+      if (Array.isArray(result)) {
+        // 如果结果是一个数组，选择第一个元素赋值给component
+        component = result[0]
+      } else {
+        // 如果结果不是数组，直接赋值给component
+        component = result
+      }
     } else if (schemaItem.oneOf?.length || schemaItem.anyOf?.length) {
       let optionList = schemaItem.oneOf || []
       let isMultiple = false
@@ -272,7 +280,7 @@ export const createSchemaFormItem = (
             )
           })}
         </ElSelect>
-      )
+      ) as VNode
     } else if (schemaItem.type === 'string') {
       if (['date', 'datetime'].includes(schemaItem.format ?? '')) {
         component = (
@@ -280,11 +288,11 @@ export const createSchemaFormItem = (
             type={schemaItem.format as AllowSchemaFormatTypeForDatePicker}
             {...getCommonProps('2')}
           />
-        )
+        ) as VNode
       } else if (schemaItem.format === 'time') {
-        component = <ElTimePicker {...getCommonProps('2')} />
+        component = (<ElTimePicker {...getCommonProps('2')} />) as VNode
       } else {
-        component = <ElInput {...getCommonProps('1')}></ElInput>
+        component = (<ElInput {...getCommonProps('1')}></ElInput>) as VNode
       }
     } else if (schemaItem.type === 'number') {
       const currencyProps = {} as ElInputEvent
@@ -332,7 +340,7 @@ export const createSchemaFormItem = (
           {...currencyProps}
           onBlur={handlerBlur}
         ></ElInput>
-      )
+      ) as VNode
     }
     return component
   }

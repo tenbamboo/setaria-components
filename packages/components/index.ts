@@ -73,6 +73,7 @@
 // export * from './hello-would'
 export * from './schema-form'
 export * from './search-form'
+export * from './schema-table'
 export * from './common-schema'
 
 // plugins

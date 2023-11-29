@@ -20,5 +20,12 @@ export default {
       search: '搜索',
       cancel: '取消',
     },
+    schemaTable: {
+      no: '序号',
+      operation: '操作',
+      more: '更多',
+      allColumns: '所有列',
+      settingColumns: '列设置',
+    },
   },
 }

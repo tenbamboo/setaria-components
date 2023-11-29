@@ -1,31 +1,54 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import {
   ElCol,
   ElDatePicker,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
   ElFormItem,
   ElIcon,
   ElInput,
+  ElLink,
   ElOption,
   ElRow,
   ElSelect,
   ElTimePicker,
   ElTooltip,
 } from 'element-plus'
-import { Warning } from '@element-plus/icons-vue'
+import { ArrowDown, Warning } from '@element-plus/icons-vue'
+// import { VxeTableDefines } from 'vxe-table'
+import { isEmpty, isNumber } from 'lodash-unified'
+// import dayjs from 'dayjs'
+import XEUtils from 'xe-utils'
 import { useLocale } from '@setaria-components/hooks'
+import { type Arrayable, isFunction } from '@setaria-components/utils'
+import type { VxeColumnProps, VxeColumnSlots } from 'vxe-table'
 import type { FormItemRule } from 'element-plus'
 import type { Slot, Slots, VNode } from 'vue'
+
+// import type { schemaTableProps } from '../schema-table/src/props'
 import type {
   AllowSchemaFormatTypeForDatePicker,
   SchemaProperties,
   SchemaProps,
   SchemaUiProps,
+  SchemaUiPropsByTable,
 } from './schema.type'
-// import El from ''
-import type { Arrayable } from '@setaria-components/utils'
+
+const visibleStorageKey = 'VXE_TABLE_CUSTOM_COLUMN_VISIBLE'
+const dragSortStorageKey = 'VXE_TABLE_CUSTOM_COLUMN_DRAG_SORT'
 
 declare interface ElInputEvent {
   formatter: (value: string) => string
   parser: (value: string) => string
+}
+
+interface VxeColumnPropsByCustom extends VxeColumnProps {
+  slots: VxeColumnSlots
+}
+
+interface SlotFunction {
+  (scope: any): any // 定义插槽函数的参数和返回值类型
 }
 
 // 不同组件渲染时的提示信息
@@ -203,7 +226,6 @@ export const createSchemaFormItem = (
   schemaKey: string,
   schemaItem: SchemaProperties,
   uiSchema: Record<string, SchemaUiProps>,
-  // eslint-disable-next-line @typescript-eslint/ban-types
   emit: Function,
   slots: Slots,
   labelSuffix: string
@@ -314,22 +336,6 @@ export const createSchemaFormItem = (
       }
 
       if (schemaItem.format === 'currency') {
-        const formatterByCurrency = (value: string) => {
-          const format = (v: string) => {
-            const ret = v.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            return ret
-          }
-          if (value) {
-            const strVal = `${value}`
-            if (strVal.indexOf('.')) {
-              const arr: Array<string> = strVal.split('.')
-              arr[0] = format(arr[0])
-              return arr.join('.')
-            }
-            return format(strVal)
-          }
-          return value
-        }
         currencyProps.formatter = formatterByCurrency
         currencyProps.parser = (value: string) => value.replace(/(,*)/g, '')
       }
@@ -377,4 +383,708 @@ export const createSchemaFormItem = (
       {getComponent()}
     </ElFormItem>
   ) as VNode
+}
+
+function byteLength(str = '') {
+  let length = 0
+  Array.from(str).forEach((char) => {
+    if (char.charCodeAt(0) > 255) {
+      // 字符编码大于255，说明是双字节字符
+      length += 2
+    } else {
+      length += 1
+    }
+  })
+
+  return length
+}
+
+function formatterByCurrency(value: string) {
+  const format = (v: string) => {
+    const ret = v.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    return ret
+  }
+  if (value) {
+    const strVal = `${value}`
+    if (strVal.indexOf('.')) {
+      const arr: Array<string> = strVal.split('.')
+      arr[0] = format(arr[0])
+      return arr.join('.')
+    }
+    return format(strVal)
+  }
+  return value
+}
+
+// function formatDate(odataDate: string, format: string) {
+//   if (!odataDate) {
+//     return ''
+//   }
+//   const temp = odataDate.match(/^\/Date\((.*)\)\/$/)
+//   if (!temp || !temp[1]) {
+//     return odataDate
+//   }
+//   const timestamp = temp[1]
+//   if (!timestamp) {
+//     return ''
+//   }
+//   return dayjs(timestamp).format(format)
+// }
+
+// function dateFormatter(params: any) {
+//   return formatDate(params.cellValue, 'YYYY-MM-DD')
+// }
+
+// function dateTimeFormatter(params: any) {
+//   return formatDate(params.cellValue, 'YYYY-MM-DD HH:mm:ss')
+// }
+
+/**
+ * 设置默认formatter
+ */
+function createFormatter(property: SchemaProperties) {
+  const {
+    format,
+    oneOf,
+    anyOf,
+    // type,
+    // precision,
+    // 小数位
+    scale,
+  } = property
+  // if (type === 'boolean') {
+  //   return function formatter(value) {
+  //     return value ? t('el.schema.yes') : t('el.schema.no')
+  //   }
+  // }
+  if (format === 'time') {
+    return function formatter(value: any) {
+      if (isEmpty(value)) {
+        return ''
+      }
+      return value
+    }
+  }
+  // 枚举值处理
+  const dictList = oneOf || anyOf
+  if (!isEmpty(dictList)) {
+    const getDisplayDictLabel = (val: string) => {
+      const dict = dictList?.find((item) => item.const === val)
+      return dict ? dict.title : val
+    }
+    return function formatter(value: any) {
+      if (Array.isArray(value)) {
+        const res = value
+          .map((cv) => {
+            const displayDictLabel = getDisplayDictLabel(cv)
+            return displayDictLabel
+          })
+          .join(', ')
+        return res
+      } else if (typeof value === 'number' || typeof value === 'string') {
+        return getDisplayDictLabel(`${value}`)
+      }
+      return value
+    }
+  }
+  if (format === 'currency') {
+    return function formatter(value: any) {
+      // 对于null值，不显示任何值
+      if (!value || Number.isNaN(value)) {
+        return value
+      }
+      // const config = {}
+      // let scaleNum = +scale
+      // if (typeof scaleNum === 'number' && !isNaN(scaleNum)) {
+      //   config.maximumFractionDigits = scaleNum
+      // } else {
+      //   scaleNum = 0
+      // }
+      let val = value
+
+      if (scale !== 0 && isNumber(scale)) {
+        val = val.toFixed(scale)
+      }
+      return formatterByCurrency(val)
+      // if (scale === 0) {
+      //   return displayVal
+      // }
+      // 因numeral在输入框内格式化值存在问题，且inputnumber组件会默认对小数位进行处理
+      // 所以此处只处理只读状态下label的显示值
+      //   if (
+      //     (isNumber(displayVal) && !Number.isNaN(displayVal)) ||
+      //     (!isEmpty(displayVal) && displayVal !== 'NaN')
+      //   ) {
+      //     let digitVal = numeral(displayVal).value()
+      //     digitVal = `${digitVal.toFixed(scale)}`
+      //     return `${displayVal.split('.')[0]}.${digitVal.split('.')[1]}`
+      //   }
+      //   return value
+      // }
+    }
+  }
+}
+// 设置列宽
+function setColumnWidth(
+  column: VxeColumnPropsByCustom,
+  uiProperty: SchemaUiPropsByTable,
+  columnWidth?: string
+) {
+  let { width } = uiProperty
+  if (!isEmpty(width) && `${width}`.indexOf('px')) {
+    width = `${width}`.replace('px', '')
+    // 根据字符数量计算列的宽度 FIXME 列和标题字数较少时的处理
+  } else if (columnWidth === 'auto') {
+    let defaultMinWidth = byteLength(column.title) * 20
+    if (defaultMinWidth < 100) {
+      defaultMinWidth = 100
+    }
+    column.minWidth = `${defaultMinWidth}px`
+  } else if (!width && columnWidth) {
+    width = columnWidth
+  }
+
+  if (width) {
+    column.width = `${width}`
+  }
+}
+// 设置列格式化器
+function setColumnFormatter(
+  column: VxeColumnPropsByCustom,
+  property: SchemaProperties,
+  uiProperty: SchemaUiPropsByTable
+) {
+  const { formatter } = uiProperty
+  // if (property.type !== COLUMN_TYPE.INDEX) {
+  if (isFunction(formatter)) {
+    // eslint-disable-next-line no-shadow
+    column.formatter = (val) => formatter(val)
+  } else {
+    // 设置默认formatter
+    const formatter = createFormatter(property)
+    if (formatter) {
+      column.formatter = ({ cellValue }) => {
+        return formatter(cellValue)
+      }
+    }
+  }
+}
+// 设置column底层的相关透传属性
+function setColumnNaviveOptions(
+  column: VxeColumnPropsByCustom,
+  uiProperty: SchemaUiPropsByTable
+) {
+  if (!isEmpty(uiProperty.options)) {
+    Object.keys(uiProperty.options).forEach((optionKey) => {
+      // if (has(column, optionKey)) {
+      // res[key ] = props[key as keyof typeof props]
+
+      column[optionKey as keyof typeof column] =
+        uiProperty?.options?.[optionKey]
+      // }
+    })
+  }
+}
+// 设置插槽
+function setColumnSlot(column: VxeColumnPropsByCustom, slots: Slots) {
+  const key = column.field
+  if (key && slots[key]) {
+    // column.hasCustomSlot = true
+
+    const defaultSlot = (scope: any) => {
+      const s = scope
+      s.data = s.row
+      s.status = 'default'
+      const render = (slots as Record<string, SlotFunction>)[key](s)
+      return render
+    }
+    const editSlot = (scope: any) => {
+      const s = scope
+      s.data = s.row
+      s.status = 'edit'
+      const render = (slots as Record<string, SlotFunction>)[key](s)
+      return render
+    }
+    // 单元格内容渲染配置项
+    column.slots = {
+      default: defaultSlot,
+      // srScopedDefault: defaultSlot,
+      // 默认设置编辑状态插槽
+      // 默认插槽内容可通过formatter进行设置
+      edit: editSlot,
+      // srScopedEdit: editSlot,
+    } as VxeColumnSlots
+  }
+}
+// 设置其他列内容，比如勾选，序号
+function setOtherColumns(ret: any[], props: any) {
+  const { t } = useLocale()
+  // 创建序号区域区域内容
+  if (props.seqColumn) {
+    ret.unshift({
+      type: 'seq',
+      title: t('sc.schemaTable.no'),
+      width: 50,
+    })
+  }
+  // 创建勾选区域内容
+  if (props.selectionType) {
+    ret.unshift({
+      type: props.selectionType,
+      title: '',
+      width: 40,
+      align: 'center',
+      fixed: 'left',
+      field: '',
+    })
+  }
+}
+// 设置操作按钮区域内容
+function setOperColumn(ret: any[], props: any, emit: Function) {
+  if (!props.showOper) {
+    return
+  }
+  const { t } = useLocale()
+
+  const onCustomButtonClick = (key: string, scope: any) => {
+    // const {
+    //   beforeUpdateRow,
+    //   isEditOnRow,
+    //   onTableDeleteClick,
+    //   // t,
+    //   MODIFY_BUTTON,
+    //   DELETE_BUTTON,
+    //   ROW_MANUAL_SAVE_BUTTON,
+    //   ROW_MANUAL_CANCEL_BUTTON,
+    // } = this
+    // const tableRef = this.getTableActionRef()
+    return (event?: Event) => {
+      if (event) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      emit('oper-button-click', key, scope)
+      //   // 修改按钮点击事件处理
+      //   if (key === MODIFY_BUTTON.key) {
+      //     this.controlStatus = EDIT_TYPE.UPDATE
+      //     let currentRow = scope.row
+      //     // 对话框编辑数据的场合
+      //     if (!isEditOnRow) {
+      //       const exec = () => {
+      //         this.isShowForm = true
+      //         this.$emit('row-buttonClick', key, scope)
+      //       }
+      //       if (typeof beforeUpdateRow === 'function') {
+      //         const afterExec = (updatedRow) => {
+      //           if (updatedRow) {
+      //             scope.row = _.assign(scope.row, updatedRow)
+      //             currentRow = _.assign(currentRow, updatedRow)
+      //           }
+      //           exec()
+      //           this.initialRowData(currentRow)
+      //         }
+      //         const updateRes = beforeUpdateRow(scope)
+      //         if (updateRes && updateRes.then) {
+      //           updateRes.then((res) => {
+      //             afterExec(res)
+      //           })
+      //         } else {
+      //           afterExec(updateRes)
+      //         }
+      //       } else {
+      //         exec()
+      //         this.initialRowData(currentRow)
+      //       }
+      //     } else {
+      //       // // 行上编辑数据的场合
+      //       // if (this.editingRow) {
+      //       //   this.$message({
+      //       //     message: t('el.protable.onlyEditOne'),
+      //       //     type: 'error'
+      //       //   });
+      //       //   return;
+      //       // }
+      //       const afterExec = (updatedRow) => {
+      //         if (updatedRow) {
+      //           scope.row = _.assign(scope.row, updatedRow)
+      //           currentRow = _.assign(currentRow, updatedRow)
+      //         }
+      //         this.initialRowData(currentRow)
+      //         this.editingRow = scope.row
+      //         this.setActiveRow()
+      //       }
+      //       if (typeof beforeUpdateRow === 'function') {
+      //         const updateRes = beforeUpdateRow(scope)
+      //         if (updateRes && updateRes.then) {
+      //           updateRes.then((res) => {
+      //             afterExec(res)
+      //           })
+      //         } else {
+      //           afterExec(updateRes)
+      //         }
+      //       } else {
+      //         afterExec()
+      //       }
+      //     }
+      //     // 删除按钮点击事件处理
+      //   } else if (key === DELETE_BUTTON.key) {
+      //     this.controlStatus = EDIT_TYPE.DELETE
+      //     onTableDeleteClick([scope.row]).then(() => {
+      //       this.$emit('row-buttonClick', key, scope)
+      //     })
+      //     // 保存按钮点击事件
+      //   } else if (key === ROW_MANUAL_SAVE_BUTTON.key) {
+      //     tableRef
+      //       .validate(this.editingRow)
+      //       .then((isNoValid) => {
+      //         if (!isNoValid) {
+      //           const afterExec = () => {
+      //             tableRef.clearActived().then(() => {
+      //               this.currentFormData = null
+      //               this.editingRow = null
+      //               this.setChangeMode(scope.row, this.controlStatus)
+      //               this.$emit('row-buttonClick', key, scope)
+      //             })
+      //           }
+      //           const fun = this.save(scope.row, this.controlStatus, scope)
+      //           if (typeof this.save === 'function' && fun.then) {
+      //             fun.then(() => {
+      //               afterExec()
+      //             })
+      //           } else {
+      //             afterExec()
+      //           }
+      //         }
+      //       })
+      //       .catch(() => {
+      //         this.$emit('row-buttonClick', key, scope)
+      //       })
+      //     // 取消按钮点击事件处理
+      //   } else if (key === ROW_MANUAL_CANCEL_BUTTON.key) {
+      //     this.cancelRowEdit()
+      //     this.$emit('row-buttonClick', key, scope)
+      //   } else {
+      //     this.$emit('row-buttonClick', key, scope)
+      //   }
+    }
+  }
+
+  ret.push({
+    title: t('sc.schemaTable.operation'),
+    fixed: 'right',
+    align: 'center',
+    type: 'operation',
+    width: props.operWidth,
+    className: 'sc-schema-table__control-column',
+    slots: {
+      default(scope: any) {
+        const controlColumnDefaultSlot = []
+        const maxDisplayCount = props.operMaxDisplayCount
+          ? props.operMaxDisplayCount + 1
+          : props.operMaxDisplayCount
+
+        // if ($scopedSlots.controlColumn) {
+        //   controlColumnDefaultSlot.push($scopedSlots.controlColumn(scope));
+        //   return controlColumnDefaultSlot;
+        // }
+        let rowButtonList = [] as any[]
+        // 添加自定义按钮的前提是必须为非行内编辑激活状态
+        if (
+          props.operButtons
+          //  && !getIsEditOnRow()
+        ) {
+          rowButtonList = props.operButtons(scope) || []
+        }
+        // if ($scopedSlots.rowButtons && !getIsEditOnRow()) {
+        //   rowButtonList.push({render: (scope) => {
+        //     return (
+        //       $scopedSlots.rowButtons(scope)
+        //     );
+        //   }});
+        // }
+
+        if (!props.labelMode) {
+          // 添加删除按钮
+          // 当前编辑状态为激活状态时，需要隐藏删除按钮
+          // 以行维度控制是否可以显示删除按钮
+          //   if (canDelete && !isActiveByRow(scope.row)) {
+          //     const deleteButtonRender = () => {
+          //       if ($scopedSlots.deleteData) {
+          //         DELETE_BUTTON.render = (scope) => {
+          //           scope.$tableDataEditing = (editingRow !== null);
+          //           const handleClick = (evt) => {
+          //             if (scope.$tableDataEditing) {
+          //               evt.preventDefault();
+          //               evt.stopPropagation();
+          //               return () => {};
+          //             }
+          //             return onCustomButtonClick(DELETE_BUTTON.key, scope)(evt);
+          //           };
+          //           return (
+          //             <span class="pro-table__control_column_button" onClick={handleClick}>
+          //               { $scopedSlots.deleteData(scope) }
+          //             </span>
+          //           );
+          //         };
+          //       }
+          //       DELETE_BUTTON.disabled = (editingRow !== null);
+          //       // 删除按钮移动到行尾
+          //       rowButtonList.push(DELETE_BUTTON);
+          //     };
+          //     if (canDeleteRow) {
+          //       if (canDeleteRow(scope)) {
+          //         deleteButtonRender(scope);
+          //       }
+          //     } else {
+          //       deleteButtonRender(scope);
+          //     }
+          //   }
+          //   if ((forceEditOnRow !== true) || (forceEditOnRow && innerEditConfig.trigger === 'manual')) {
+          //     if (isActiveByRow(scope.row)) {
+          //       if ($scopedSlots.cancelData) {
+          //         ROW_MANUAL_CANCEL_BUTTON.render = (scope) => {
+          //           return (
+          //             <span
+          //               class="pro-table__control_column_button"
+          //               onClick={onCustomButtonClick(ROW_MANUAL_CANCEL_BUTTON.key, scope)}>
+          //               { $scopedSlots.cancelData(scope) }
+          //             </span>
+          //           );
+          //         };
+          //       }
+          //       rowButtonList.unshift(ROW_MANUAL_CANCEL_BUTTON);
+          //       if ($scopedSlots.saveData) {
+          //         ROW_MANUAL_SAVE_BUTTON.render = (scope) => {
+          //           return (
+          //             <span class="pro-table__control_column_button" onClick={onCustomButtonClick(ROW_MANUAL_SAVE_BUTTON.key, scope)}>
+          //               { $scopedSlots.saveData(scope) }
+          //             </span>
+          //           );
+          //         };
+          //       }
+          //       rowButtonList.unshift(ROW_MANUAL_SAVE_BUTTON);
+          //     // 以行维度控制是否可以显示修改按钮
+          //     } else if (canUpdate) {
+          //       const modifyButtonRender = () => {
+          //         if ($scopedSlots.modifyData) {
+          //           scope.$tableDataEditing = (editingRow !== null);
+          //           const handleClick = (evt) => {
+          //             if (scope.$tableDataEditing) {
+          //               evt.preventDefault();
+          //               evt.stopPropagation();
+          //               return () => {};
+          //             }
+          //             return onCustomButtonClick(MODIFY_BUTTON.key, scope)(evt);
+          //           };
+          //           MODIFY_BUTTON.render = (scope) => {
+          //             return (
+          //               <span class="pro-table__control_column_button" onClick={handleClick}>
+          //                 { $scopedSlots.modifyData(scope, editingRow) }
+          //               </span>
+          //             );
+          //           };
+          //         }
+          //         MODIFY_BUTTON.disabled = (editingRow !== null);
+          //         rowButtonList.unshift(MODIFY_BUTTON);
+          //       };
+          //       if (canUpdateRow) {
+          //         if (canUpdateRow(scope)) {
+          //           modifyButtonRender();
+          //         }
+          //       } else {
+          //         modifyButtonRender();
+          //       }
+          //     }
+          //   }
+          // }
+        }
+        if (!isEmpty(rowButtonList)) {
+          if (rowButtonList.length <= maxDisplayCount) {
+            rowButtonList.forEach((button: any) => {
+              let ret = {}
+              const classList = []
+              classList.push('schema-table__control_column_button')
+              // if (render) {
+              //   ret = render(scope)
+              // } else if (label && label.indexOf('el-') === 0) {
+              //   classList.push('pro-table__control_column_icon_button', label)
+              //   ret = (
+              //     <i
+              //       class={classList}
+              //       onClick={onCustomButtonClick(key, scope)}
+              //     ></i>
+              //   )
+              // } else {
+              ret = (
+                <ElLink
+                  underline={false}
+                  type="primary"
+                  class={classList}
+                  onClick={onCustomButtonClick(button.key, scope)}
+                >
+                  {button.label}
+                </ElLink>
+              )
+              // }
+              controlColumnDefaultSlot.push(ret)
+            })
+          } else {
+            let i = 0
+            for (i = 0; i < maxDisplayCount - 1; i += 1) {
+              const btnFirst = rowButtonList[i]
+              controlColumnDefaultSlot.push(
+                <ElLink
+                  underline={false}
+                  type="primary"
+                  onClick={onCustomButtonClick(btnFirst.key, scope)}
+                >
+                  {btnFirst.label}
+                </ElLink>
+              )
+            }
+            const onCommand = (key: string) => {
+              onCustomButtonClick(key, scope)()
+              // onCustomButtonClick(key, scope)
+            }
+            const moreElt = (
+              <ElDropdown
+                class="sc-schema-table_column-more-button"
+                onCommand={onCommand}
+                v-slots={{
+                  dropdown: () => {
+                    return (
+                      <ElDropdownMenu>
+                        {rowButtonList.map(({ key, label }, index) => {
+                          if (index >= i) {
+                            return (
+                              <ElDropdownItem command={key}>
+                                <ElLink type="primary" underline={false}>
+                                  {label}
+                                </ElLink>
+                              </ElDropdownItem>
+                            )
+                          }
+                          return null
+                        })}
+                      </ElDropdownMenu>
+                    )
+                  },
+                }}
+              >
+                <ElLink underline={false} type="primary">
+                  {t('sc.schemaTable.more')}
+
+                  <ElIcon>
+                    <ArrowDown />
+                  </ElIcon>
+                </ElLink>
+              </ElDropdown>
+            )
+            controlColumnDefaultSlot.push(moreElt)
+          }
+        }
+        return controlColumnDefaultSlot
+      },
+    },
+  })
+}
+
+function getCustomStorageMap(key: string) {
+  // const version = GlobalConfig.version
+  const rest = XEUtils.toStringJSON(localStorage.getItem(key))
+  return rest
+  // return rest && rest._v === version ? rest : { _v: version }
+}
+// 设置列格式化器
+function setColumnVisible(
+  column: VxeColumnPropsByCustom,
+  uiProperty: SchemaUiPropsByTable,
+  props?: any
+) {
+  // 是否显示
+  column.visible = !(
+    uiProperty.visible === false || uiProperty.columnVisible === false
+  )
+
+  const columnVisibleStorage =
+    getCustomStorageMap(visibleStorageKey)[props.tableId]
+
+  if (columnVisibleStorage) {
+    // vxetable底层获取数据
+    const colVisibles = columnVisibleStorage.split('|')
+    const colHides = colVisibles[0] ? colVisibles[0].split(',') : []
+    // const colShows = colVisibles[1] ? colVisibles[1].split(',') : []
+
+    // checkedKeys.forEach((item) => {
+    if (colHides.includes(column.field)) {
+      column.visible = false
+    }
+    // if (colShows.includes(column.field)) {
+    //   column.visible = true
+    // }
+  }
+}
+// 创建表格项
+export const createSchemaTableColumns = (
+  schema: SchemaProps,
+  uiSchema: Record<string, SchemaUiPropsByTable>,
+  slots: Slots,
+  emit: Function,
+  props?: any
+): any[] => {
+  const ret = [] as any[]
+  const { properties } = schema
+  if (!properties) {
+    return ret
+  }
+
+  Object.keys(properties).forEach((key) => {
+    const property = properties[key]
+    const uiProperty = uiSchema?.[key] || {}
+
+    if (property) {
+      const column = {} as VxeColumnPropsByCustom
+      // 列字段名
+      column.field = key
+      // 头部对其
+      column.headerAlign = 'left'
+      // 列标题
+      column.title = property.title
+      // 是否排序
+      column.sortable = !!uiProperty.sortable
+      // 是否固定左边或者右边
+      column.fixed = uiProperty.fixed
+      // 是否显示
+
+      setColumnVisible(column, uiSchema, props)
+      // column.visible = !(
+      //   uiProperty.visible === false || uiProperty.columnVisible === false
+      // )
+
+      // 列提示
+      if (property.description) {
+        column.titlePrefix = {
+          content: property.description,
+        }
+      }
+
+      // 列宽度
+      setColumnWidth(column, uiProperty, props.columnWidth)
+      // 自定义格式化功能
+      setColumnFormatter(column, property, uiProperty)
+
+      // 设置VxeColumn底层的内容
+      setColumnNaviveOptions(column, uiProperty)
+      // 设置插槽内容
+      setColumnSlot(column, slots)
+
+      ret.push(column)
+    }
+  })
+  // 设置其他默认列
+  setOtherColumns(ret, props)
+  // 设置操作列
+  setOperColumn(ret, props, emit)
+
+  return ret
 }

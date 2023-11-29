@@ -1,0 +1,43 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+@include b(schema-table) {
+  .sc-schema-table__control-column {
+    .el-link + .el-link {
+      margin-left: 5px;
+    }
+    .sc-schema-table_column-more-button {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+      margin-left: 5px;
+    }
+  }
+  .sc-schema-table_column-setting-trigger {
+    i {
+      margin-right: 5px;
+    }
+  }
+}
+.sc-schema-table_column-setting-tree {
+  .sc-schema-table_column-setting-check-all {
+    border-bottom: 1px solid #f0f0f0;
+    margin-top: -6px;
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+  }
+  .el-tree-node__content {
+    .el-tree-node__expand-icon {
+      display: none;
+    }
+    .sc-schema-table_column-setting-tree-node {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+  }
+}

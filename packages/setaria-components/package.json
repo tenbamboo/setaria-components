@@ -72,7 +72,9 @@
   ],
   "peerDependencies": {
     "element-plus": "2.4.1",
-    "vue": "^3.3.0"
+    "vue": "^3.3.0",
+    "vxe-table": "^4.5.13",
+    "xe-utils": "^3.5.13"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.1",

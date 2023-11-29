@@ -23,7 +23,9 @@
     "nprogress": "^0.2.0",
     "prism-theme-vars": "^0.2.3",
     "setaria-components": "npm:setaria-components@latest",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "vxe-table": "^4.5.13",
+    "xe-utils": "^3.5.13"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.7.10",

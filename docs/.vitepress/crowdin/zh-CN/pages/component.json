@@ -9,6 +9,10 @@
       {
         "link": "/search-form",
         "text": "Search Form"
+      },
+      {
+        "link": "/schema-table",
+        "text": "Schema Table"
       }
     ]
   }

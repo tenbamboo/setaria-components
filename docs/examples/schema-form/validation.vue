@@ -12,6 +12,8 @@
       <el-rate v-model="scope.testCustomSlot" />
     </template>
   </sc-schema-form>
+
+  <el-button @click="submit">提交</el-button>
   {{ formValue }}
 </template>
 

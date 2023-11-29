@@ -6,4 +6,5 @@ export const ScSchemaForm = withInstall(SchemaForm)
 export default ScSchemaForm
 
 export * from './src/schema-form'
+export * from './src/props'
 export type { SchemaFormInstance } from './src/instance'

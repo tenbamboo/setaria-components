@@ -17,6 +17,12 @@ search-form/basic
 
 :::
 
+## 校验
+
+:::demo 可通过`schema.required`属性来控制表单中的必填项，也可通过`rules`属性来自定义校验规则
+
+search-form/validation
+
 ## 收起时控制强制显示内容
 
 :::demo 通过`force-collapse-items`属性来控制表单收起时强制显示几个列

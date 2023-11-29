@@ -86,7 +86,7 @@ const copyCode = async () => {
       <ElDivider class="m-0" />
 
       <div class="op-btns">
-        <ElTooltip
+        <!-- <ElTooltip
           :content="locale['edit-in-editor']"
           :show-arrow="false"
           :trigger="['hover', 'focus']"
@@ -104,8 +104,8 @@ const copyCode = async () => {
           >
             <i-ri-flask-line />
           </ElIcon>
-        </ElTooltip>
-        <ElTooltip
+        </ElTooltip> -->
+        <!-- <ElTooltip
           :content="locale['edit-on-github']"
           :show-arrow="false"
           :trigger="['hover', 'focus']"
@@ -125,7 +125,7 @@ const copyCode = async () => {
               <i-ri-github-line />
             </a>
           </ElIcon>
-        </ElTooltip>
+        </ElTooltip> -->
         <ElTooltip
           :content="locale['copy-code']"
           :show-arrow="false"

@@ -39,6 +39,7 @@ declare module '@vue/runtime-core' {
     // ScHelloWould: typeof import('setaria-components')['ScHelloWould']
     ScSchemaForm: typeof import('setaria-components')['ScSchemaForm']
     ScSearchForm: typeof import('setaria-components')['ScSearchForm']
+    ScSchemaTable: typeof import('setaria-components')['ScSchemaTable']
     // ElFooter: typeof import('setaria-components')['ElFooter']
     // ElForm: typeof import('setaria-components')['ElForm']
     // ElFormItem: typeof import('setaria-components')['ElFormItem']

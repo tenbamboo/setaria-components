@@ -1,3 +1,5 @@
+import type { VxeColumnPropTypes } from 'vxe-table'
+
 export declare type AllowScehmaTypeType = 'string' | 'number' | 'index'
 
 export declare type AllowSchemaFormatType =
@@ -37,6 +39,15 @@ export declare interface SchemaUiProps {
   visible?: boolean
   colspan?: number
   options?: Record<string, any>
+}
+
+export declare interface SchemaUiPropsByTable extends SchemaUiProps {
+  width?: number | string
+  sortable?: boolean
+  fixed?: VxeColumnPropTypes.Fixed
+  formatter?: VxeColumnPropTypes.Formatter
+  columnVisible?: boolean
+  formItemVisible?: boolean
 }
 
 // export const JSON_UI_SCHEMA = {

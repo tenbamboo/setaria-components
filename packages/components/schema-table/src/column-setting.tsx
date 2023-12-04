@@ -14,14 +14,15 @@ const dragSortStorageKey = 'VXE_TABLE_CUSTOM_COLUMN_DRAG_SORT'
 export const useColumnSetting = (
   xTable: Ref<VxeGridInstance | undefined>,
   props: any,
-  emit: Function,
-  columnsBySchema: any[]
+  emit: Function
+  // columnsBySchema: any[]
 ) => {
   const { t } = useLocale()
   const isIndeterminate = ref<boolean>(false)
   const isAllChecked = ref<boolean>(false)
   let checkedKeys = reactive<Array<any>>([])
   const columnsBySchemaSorted = ref<any[]>([]) //reactive<Array<any>>([])
+  let columnsBySchema: any[] = []
   const treeRef = ref<InstanceType<typeof ElTree>>()
 
   // 获取当前列的是否可见
@@ -122,29 +123,6 @@ export const useColumnSetting = (
     }
   }
 
-  const treeData = computed<Array<any>>(() => {
-    return columnsBySchemaSorted.value.filter(
-      // 把序号列和操作列隐藏
-      (item: any) => !['operation', 'seq'].includes(item.type)
-    )
-  })
-
-  watch(
-    () => columnsBySchema,
-    (val) => {
-      checkedKeys = val
-        .filter((item: any) => item.visible)
-        .map((item: any) => item.field)
-
-      nextTick().then(() => {
-        refreshCheckAllStatus()
-      })
-    },
-    {
-      immediate: true,
-      deep: true,
-    }
-  )
   // 设置schemaBySort的内容
   const setSchemaBySort = (sortKeys?: any[]) => {
     if (sortKeys && sortKeys.length) {
@@ -157,25 +135,41 @@ export const useColumnSetting = (
           newSchema.push(findObj)
         }
       })
-      // const operColumn = columnsBySchema.find((item: any) =>
-      //   ['operation'].includes(item.type)
-      // )
-      // if (operColumn) {
-      //   newSchema.push(operColumn)
-      // }
-      // const seqColumn = columnsBySchema.find((item: any) =>
-      //   ['seq'].includes(item.type)
-      // )
-      // if (seqColumn) {
-      //   newSchema.unshift(seqColumn)
-      // }
+      const operColumn = columnsBySchema.find((item: any) =>
+        ['operation'].includes(item.type)
+      )
+      if (operColumn) {
+        newSchema.push(operColumn)
+      }
+
+      const selectionColumn = columnsBySchema.find((item: any) =>
+        ['checkbox', 'radio'].includes(item.type)
+      )
+      if (selectionColumn) {
+        newSchema.unshift(selectionColumn)
+      }
+
+      const seqColumn = columnsBySchema.find((item: any) =>
+        ['seq'].includes(item.type)
+      )
+      if (seqColumn) {
+        newSchema.unshift(seqColumn)
+      }
+
       columnsBySchemaSorted.value = newSchema
     } else {
       columnsBySchemaSorted.value = columnsBySchema
     }
   }
+
   // 初始化排序内容
-  const initDragSortStorage = () => {
+  const initColumnSetting = (_columnsBySchema: any) => {
+    columnsBySchema = _columnsBySchema
+
+    checkedKeys = columnsBySchema
+      .filter((item: any) => item.visible)
+      .map((item: any) => item.field)
+
     if (props.tableId) {
       const sortKeys = getCustomStorageMap(dragSortStorageKey)[props.tableId]
       if (sortKeys) {
@@ -186,7 +180,30 @@ export const useColumnSetting = (
     } else {
       setSchemaBySort()
     }
+    nextTick().then(() => {
+      refreshCheckAllStatus()
+    })
   }
+  const treeData = computed<Array<any>>(() => {
+    return columnsBySchemaSorted.value.filter(
+      // 把序号列和操作列和勾选功能隐藏
+      (item: any) =>
+        !['operation', 'seq', 'checkbox', 'radio'].includes(item.type)
+    )
+  })
+
+  // watch(
+  //   () => columnsBySchema,
+  //   (val) => {
+
+  //     initColumnSetting()
+
+  //   },
+  //   {
+  //     immediate: true,
+  //     deep: true,
+  //   }
+  // )
 
   const columnSettingAllowDrop = (
     draggingNode: any,
@@ -262,69 +279,72 @@ export const useColumnSetting = (
     return ret
   }
 
-  initDragSortStorage()
+  // initColumnSetting()
 
   return {
     columnsBySchemaSorted,
+    initColumnSetting,
     columnSettingRender: () => {
       if (props.showColumnSetting) {
         return (
-          <ElPopover
-            placement="bottom"
-            class="sc-schema-table_column-setting"
-            width="240"
-            trigger="click"
-            popper-class="sc-schema-table_column-setting-tree"
-            onShow={handlerColumnSettingShow}
-            onHide={handlerColumnSettingHide}
-            v-slots={{
-              reference: () => {
-                return (
-                  <ElLink
-                    class="sc-schema-table_column-setting-trigger"
-                    icon={Setting}
-                    type="primary"
-                    underline={false}
-                  >
-                    {t('sc.schemaTable.settingColumns')}
-                  </ElLink>
-                )
-              },
-            }}
-          >
-            <div class="sc-schema-table_column-setting-check-all">
-              <ElCheckbox
-                indeterminate={isIndeterminate.value}
-                v-model={isAllChecked.value}
-                onChange={hanlderAllCheckChanged}
-              >
-                {t('sc.schemaTable.allColumns')}
-              </ElCheckbox>
-              {/* <el-button
+          <div>
+            <ElPopover
+              placement="bottom"
+              class="sc-schema-table_column-setting"
+              width="240"
+              trigger="click"
+              popper-class="sc-schema-table_column-setting-tree"
+              onShow={handlerColumnSettingShow}
+              onHide={handlerColumnSettingHide}
+              v-slots={{
+                reference: () => {
+                  return (
+                    <ElLink
+                      class="sc-schema-table_column-setting-trigger"
+                      icon={Setting}
+                      type="primary"
+                      underline={false}
+                    >
+                      {t('sc.schemaTable.settingColumns')}
+                    </ElLink>
+                  )
+                },
+              }}
+            >
+              <div class="sc-schema-table_column-setting-check-all">
+                <ElCheckbox
+                  indeterminate={isIndeterminate.value}
+                  v-model={isAllChecked.value}
+                  onChange={hanlderAllCheckChanged}
+                >
+                  {t('sc.schemaTable.allColumns')}
+                </ElCheckbox>
+                {/* <el-button
                 type="text"
                 class="column-setting__reset-button"
                 on-click={onReset}
               >
                 {t('el.proform.reset')}
               </el-button> */}
-            </div>
-            <ElTree
-              ref={treeRef}
-              data={treeData.value}
-              show-checkbox
-              node-key="field"
-              default-expand-all={true}
-              expand-on-click-node={false}
-              draggable={props.columnSettingDraggable}
-              check-on-click-node={!props.columnSettingDraggable}
-              default-checked-keys={checkedKeys}
-              allow-drop={columnSettingAllowDrop}
-              // on-check={onColumnSettingCheck}
-              onCheckChange={handlerColumnSettingTreeNodeCheck}
-              onNodeDragEnd={handlerColumnSettingNodeDragEnd}
-              render-content={renderContent}
-            />
-          </ElPopover>
+              </div>
+              <ElTree
+                ref={treeRef}
+                data={treeData.value}
+                show-checkbox
+                node-key="field"
+                default-expand-all={true}
+                expand-on-click-node={false}
+                draggable={props.columnSettingDraggable}
+                check-on-click-node={!props.columnSettingDraggable}
+                default-checked-keys={checkedKeys}
+                allow-drop={columnSettingAllowDrop}
+                // on-check={onColumnSettingCheck}
+                onCheckChange={handlerColumnSettingTreeNodeCheck}
+                onNodeDragEnd={handlerColumnSettingNodeDragEnd}
+                render-content={renderContent}
+              />
+            </ElPopover>
+          </div>
           // <VxePager
           //   size="small"
           //   background

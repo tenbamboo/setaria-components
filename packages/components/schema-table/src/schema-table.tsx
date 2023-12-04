@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 
 import { VxeGrid } from 'vxe-table'
 import { isEmpty, merge } from 'lodash-unified'
@@ -8,6 +8,7 @@ import { SchemaTableEditType, schemaTableProps } from './props'
 import { usePager } from './pager'
 import { useSelection } from './selection'
 import { useColumnSetting } from './column-setting'
+import { useEditable } from './editable'
 
 import type {
   VxeGridInstance,
@@ -19,7 +20,8 @@ export default defineComponent({
   name: 'ScSchemaTable',
   props: schemaTableProps,
   emits: [
-    'input',
+    // 'input',
+    // 'update:modelValue',
     'data-change',
     'selection-change',
     'selection-all',
@@ -38,17 +40,109 @@ export default defineComponent({
   setup(props, { slots, emit, expose }) {
     // start
     const xTable = ref<VxeGridInstance>()
+    const innerDataList = ref<any[]>([])
+    // const detailVisible = ref<boolean>(false)
+    const columnsBySchema = ref<any[]>([])
+    watch(
+      () => props.data,
+      () => {
+        innerDataList.value = props.data || []
+      },
+      {
+        deep: true,
+        immediate: true,
+      }
+    )
+    const innerDataListExcluedDel = computed<VxeTablePropTypes.Data<any>>(
+      () => {
+        const { changeModeField } = props
+        // if (isEmpty(props.modelValue)) {
+        //   return []
+        // }
+        return (
+          innerDataList.value?.filter(
+            (item: any) => item[changeModeField] !== SchemaTableEditType.DELETE
+          ) || []
+        )
+      }
+    )
+    // watchEffect(() => {
+    //   console.log('bingogogogo', innerDataList.value)
+    // })
 
-    const columnsBySchema = computed<any[]>(() => {
-      return createSchemaTableColumns(
-        props.schema,
-        props.uiSchema,
-        slots,
-        emit,
-        props
-      )
-    })
+    const {
+      innerSelectionConfig,
+      handlerRadioChange,
+      handlerCheckboxChange,
+      handlerCheckboxAll,
+      handlerSelectionChange,
+      clearSelection,
+      setSelection,
+      getSelection,
+      selectionList,
+    } = useSelection(props, emit, xTable)
 
+    const { columnSettingRender, columnsBySchemaSorted, initColumnSetting } =
+      useColumnSetting(xTable, props, emit)
+
+    const { setOperColumn, detailFormRender, topButtonRender } = useEditable(
+      props,
+      emit,
+      slots,
+      xTable,
+      selectionList,
+      innerDataList
+    )
+
+    watch(
+      () => [props.schema, props.uiSchema],
+      () => {
+        const list = createSchemaTableColumns(
+          props.schema,
+          props.uiSchema,
+          slots,
+          emit,
+          props
+        )
+        // 设置操作列
+        setOperColumn(list)
+
+        columnsBySchema.value = list
+        nextTick().then(() => {
+          // 初始化列设置
+          initColumnSetting(columnsBySchema.value)
+          xTable.value?.refreshColumn()
+        })
+      },
+      {
+        deep: true,
+        immediate: true,
+      }
+    )
+
+    // const columnsBySchema = computed<any[]>(() => {
+    //   const list = createSchemaTableColumns(
+    //     props.schema,
+    //     props.uiSchema,
+    //     slots,
+    //     emit,
+    //     props
+    //   )
+    //   // 设置操作列
+    //   setOperColumn(list)
+
+    //   return list
+    // })
+
+    // watch(
+    //   () => props.uiSchema,
+    //   () => {
+    //     console.log('bingogogo', columnsBySchema.value)
+    //   },
+    //   {
+    //     deep: true,
+    //   }
+    // )
     const isEditOnRow = computed<boolean>(() => {
       const editableColumnCount = 0
       // vxeColumns.forEach((column) => {
@@ -77,18 +171,6 @@ export default defineComponent({
         defaultConfig.showIcon = true
       }
       return defaultConfig
-    })
-
-    const innerDataList = computed<VxeTablePropTypes.Data<any>>(() => {
-      const { data, changeModeField } = props
-      if (isEmpty(data)) {
-        return []
-      }
-      return (
-        data?.filter(
-          (item: any) => item[changeModeField] !== SchemaTableEditType.DELETE
-        ) || []
-      )
     })
 
     const innerSortConfig = computed(() => {
@@ -175,25 +257,7 @@ export default defineComponent({
       emit('cell-click', val)
     }
 
-    const {
-      innerSelectionConfig,
-      handlerRadioChange,
-      handlerCheckboxChange,
-      handlerCheckboxAll,
-      handlerSelectionChange,
-      clearSelection,
-      setSelection,
-      getSelection,
-    } = useSelection(props, emit, xTable)
-
     const { pagerRender } = usePager(props, emit, handlerSelectionChange)
-
-    const { columnSettingRender, columnsBySchemaSorted } = useColumnSetting(
-      xTable,
-      props,
-      emit,
-      columnsBySchema.value
-    )
 
     expose({
       setSelection,
@@ -204,12 +268,15 @@ export default defineComponent({
     return () => {
       return (
         <div class="sc-schema-table">
-          {columnSettingRender()}
+          <div class="sc-schema-table_top-area">
+            {topButtonRender()}
+            {columnSettingRender()}
+          </div>
           <VxeGrid
             // 比较重点的内容
             // edit-rules={innerRules}
             ref={xTable}
-            data={innerDataList.value}
+            data={innerDataListExcluedDel.value}
             columns={columnsBySchemaSorted.value}
             //直接继承props的
             id={props.tableId}
@@ -265,6 +332,7 @@ export default defineComponent({
             // on-valid-error={handleValidError}
           />
           {pagerRender()}
+          {detailFormRender()}
         </div>
       )
     }

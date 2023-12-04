@@ -1,6 +1,6 @@
 {
   "test": {
-    "text": "测试组件",
+    "text": "Schema组件",
     "children": [
       {
         "link": "/schema-form",
@@ -13,6 +13,10 @@
       {
         "link": "/schema-table",
         "text": "Schema Table"
+      },
+      {
+        "link": "/schema-table-edit",
+        "text": "Schema Table For Edit"
       }
     ]
   }

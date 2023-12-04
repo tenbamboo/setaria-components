@@ -1,4 +1,5 @@
 <template>
+  123123
   <sc-schema-table
     ref="schemaTableRef"
     :schema="schema"
@@ -8,6 +9,7 @@
     :seq-column="true"
     :show-column-setting="true"
     :column-setting-draggable="true"
+    :selection-type="'checkbox'"
     :table-id="'myTestTable'"
     @column-setting-show="hanlderColumnSettingShow"
     @column-setting-hide="hanlderColumnSettingHide"

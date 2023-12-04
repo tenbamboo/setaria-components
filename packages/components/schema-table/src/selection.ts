@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { Ref } from 'vue'
 import type { VxeGridInstance, VxeTableEvents } from 'vxe-table'
 export const useSelection = (
@@ -7,6 +7,7 @@ export const useSelection = (
   emit: Function,
   xTable: Ref<VxeGridInstance | undefined>
 ) => {
+  const selectionList = ref<any[]>([])
   const innerSelectionConfig = computed(() => {
     return {
       reserve: props.isReserve,
@@ -49,11 +50,9 @@ export const useSelection = (
     }
   }
 
-  const handlerSelectionChange = (
-    selectionList: any[],
-    currentOperItem?: any
-  ) => {
-    emit('selection-change', selectionList, currentOperItem)
+  const handlerSelectionChange = (list: any[], currentOperItem?: any) => {
+    selectionList.value = list
+    emit('selection-change', list, currentOperItem)
   }
 
   // 外部方法，设置选中
@@ -97,6 +96,7 @@ export const useSelection = (
   }
 
   return {
+    selectionList,
     innerSelectionConfig,
     handlerRadioChange,
     handlerCheckboxChange,

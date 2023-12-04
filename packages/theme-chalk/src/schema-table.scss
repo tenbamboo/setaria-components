@@ -20,6 +20,32 @@
     }
   }
 }
+.sc-schema-table_top-area {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  align-items: center;
+
+  .sc-schema-table_top-area-left-button {
+    .el-link + .el-link {
+      margin-left: 5px;
+    }
+  }
+}
+.sc-schema-table_editable-wrap-component {
+  .el-dialog__header {
+    border-bottom: 1px solid #e3e3e3;
+    margin-right: 0;
+    .el-dialog__headerbtn {
+      top: 3px;
+    }
+  }
+  .el-drawer__header {
+    border-bottom: 1px solid #e3e3e3;
+    margin-bottom: 0;
+    padding-bottom: 20px;
+  }
+}
 .sc-schema-table_column-setting-tree {
   .sc-schema-table_column-setting-check-all {
     border-bottom: 1px solid #f0f0f0;

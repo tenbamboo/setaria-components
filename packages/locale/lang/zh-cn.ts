@@ -1,11 +1,14 @@
 export default {
   name: 'zh-cn',
   sc: {
+    common: {
+      yes: '是',
+      no: '否',
+      tip: '提示',
+    },
     schemaForm: {
       placeholder: '请输入{title}',
       placeholderBySelect: '请选择{title}',
-      // yes: '是',
-      // no: '否',
       // edit: '编辑',
       // add: '添加',
       validate1: '长度必须大于{minLength}个字符',
@@ -26,6 +29,18 @@ export default {
       more: '更多',
       allColumns: '所有列',
       settingColumns: '列设置',
+      save: '保存',
+      cancel: '取消',
+      update: '修改',
+      delete: '删除',
+      view: '查看',
+      close: '关闭',
+      editData: '编辑数据',
+      addData: '新增数据',
+      viewData: '查看数据',
+      batchDelete: '批量删除',
+      confirmDelete: '确认删除数据吗？',
+      giveUpUpdate: '是否放弃对数据的更改?',
     },
   },
 }

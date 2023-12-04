@@ -223,7 +223,7 @@ schema-table/column-setting
 | oper-buttons             | 操作列自定义按钮                                           | ^[Function]`(({ row, rowIndex, column, columnIndex }) => any[])`                                                 | —      | 否   |
 | show-column-setting      | 是否显示列设置功能                                         | Boolean                                                                                                          | false  | 否   |
 | column-setting-draggable | 列设置是否开启可拖拽功能                                   | Boolean                                                                                                          | false  | 否   |
-| maxEditOnRow             | 表单项的列数                                               | Number                                                                                                           | 5      | 否   |
+| row-key                  | 数据行唯一标识字段                                         | String                                                                                                           | —      | 否   |
 
 ### SchemaTable Events
 

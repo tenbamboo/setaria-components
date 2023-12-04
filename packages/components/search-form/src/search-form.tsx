@@ -251,7 +251,7 @@ export default defineComponent({
           class="sc-search-form"
           {...props}
           uiSchema={innerUiSchema.value}
-          on-data-change={handlerChange}
+          onDataChange={handlerChange}
         >
           {{
             ...slots,

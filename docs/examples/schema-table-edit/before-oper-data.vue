@@ -1,27 +1,38 @@
 <template>
-  <el-button @click="setStringColumnVisible"
-    >设置测试String项显示/隐藏</el-button
-  >
-  <el-button @click="setNumberColumnVisible">设置数值项显示/隐藏</el-button>
-
   <sc-schema-table
-    ref="schemaTableRef"
-    :schema="schema"
-    :ui-schema="uiSchema"
     :data="dataList"
+    :schema="schema"
+    :label-mode="false"
+    :show-oper="true"
+    :show-column-setting="true"
+    :selection-type="'checkbox'"
+    :before-add-row="beforeAddRow"
+    :before-update-row="beforeUpdateRow"
   />
-  <!-- -->
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import type {
-  SchemaProps,
-  SchemaTableInstance,
-  SchemaUiPropsByTable,
-} from 'setaria-components'
-const schemaTableRef = ref<SchemaTableInstance>()
-
+import { reactive } from 'vue'
+import type { SchemaProps } from 'setaria-components'
+const beforeAddRow = (data) => {
+  // 这里返回一个data，是一个基本的对象内容
+  return {
+    ...data,
+    testString: '我是初始化的值',
+    testDesc: '我是初始化的值',
+    testNumber: 100,
+    testDate: '2023-10-01',
+  }
+}
+const beforeUpdateRow = (scope) => {
+  console.log('beforeUpdateRow', scope)
+  // 当然，这块也是支持异步的
+  return new Promise((resolve, reject) => {
+    resolve({
+      testString: '我是通过修改之后的初始化的值',
+    })
+  })
+}
 const schema = reactive<SchemaProps>({
   required: [],
   properties: {
@@ -66,15 +77,15 @@ const schema = reactive<SchemaProps>({
       oneOf: [
         {
           const: 't1',
-          title: 'title1',
+          title: 't1',
         },
         {
           const: 't2',
-          title: 'titlet2',
+          title: 't2',
         },
         {
           const: 't3',
-          title: 'title3',
+          title: 't3',
           disabled: true,
         },
       ],
@@ -85,20 +96,20 @@ const schema = reactive<SchemaProps>({
       anyOf: [
         {
           const: 't1',
-          title: 'title1',
+          title: 't1',
         },
         {
           const: 't2',
-          title: 'title2',
+          title: 't2',
         },
         {
           const: 't3',
-          title: 'title3',
+          title: 't3',
           disabled: true,
         },
         {
           const: 't4',
-          title: 'title4',
+          title: 't4',
         },
       ],
     },
@@ -109,32 +120,24 @@ const schema = reactive<SchemaProps>({
   },
 })
 
-const uiSchema = reactive<Record<string, SchemaUiPropsByTable>>({
-  testString: {
-    columnVisible: false,
-  },
-  testNumber: {
-    visible: false,
-  },
-})
-
-const dataList = Array.from({ length: 10 }).map((item, index) => {
-  return {
-    testString: `testString${index}`,
-    testDesc: `testDesc${index}`,
-    testNumber: index,
+const dataList = [
+  {
+    testString: 't1',
+    testDesc: 't2',
+    testNumber: 3,
     testDate: '2023-10-12',
     testDateTime: '2023-10-12 10:10:10',
-    testCurrency: 11234 + index,
+    testCurrency: 11234,
     testSelect1: 't1',
-  }
-})
-
-const setStringColumnVisible = () => {
-  uiSchema.testString.columnVisible = !uiSchema.testString.columnVisible
-}
-
-const setNumberColumnVisible = () => {
-  uiSchema.testNumber.visible = !uiSchema.testNumber.visible
-}
+  },
+  {
+    testString: 'a1',
+    testDesc: 'a2',
+    testNumber: 4,
+    testDate: '2023-10-12',
+    testDateTime: '2023-10-12 10:10:10',
+    testCurrency: 11234,
+    testSelect1: 't1',
+  },
+]
 </script>

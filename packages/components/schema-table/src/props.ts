@@ -1,5 +1,6 @@
 // import { ElForm, formProps } from 'element-plus'
 import { buildProps, definePropType } from '@setaria-components/utils'
+import type { FormRules } from 'element-plus'
 import type { VxeTablePropTypes } from 'vxe-table'
 import type { ExtractPropTypes, PropType } from 'vue'
 import type {
@@ -39,6 +40,9 @@ export const schemaTableProps = buildProps({
     default: 3,
   },
   data: {
+    type: Array,
+  },
+  modelValue: {
     type: Array,
   },
   changeModeField: {
@@ -153,6 +157,65 @@ export const schemaTableProps = buildProps({
   columnSettingDraggable: {
     type: Boolean,
     default: false,
+  },
+  // 行主键
+  rowKey: String,
+  canAdd: {
+    type: Boolean,
+    default: true,
+  },
+  canUpdate: {
+    type: Boolean,
+    default: true,
+  },
+  canDelete: {
+    type: Boolean,
+    default: true,
+  },
+  canView: {
+    type: Boolean,
+    default: false,
+  },
+  canUpdateRow: {
+    type: Function,
+  },
+  canDeleteRow: {
+    type: Function,
+  },
+  canViewRow: {
+    type: Function,
+  },
+  isShowTopButton: {
+    type: Boolean,
+    default: true,
+  },
+  /**
+   * 新增一行按钮点击时的回调函数，用于对新增数据进行默认值设定
+   */
+  beforeAddRow: Function,
+  /**
+   * 修改按钮点击时的回调函数，用于对修改数据进行处理
+   */
+  beforeUpdateRow: Function,
+  formSave: {
+    type: Function,
+  },
+  formRules: {
+    type: definePropType<FormRules>(Object),
+  },
+  dataAddPosition: {
+    type: definePropType<'end' | 'begin' | '' | null>([String]),
+    default: 'end',
+  },
+  formProps: {
+    type: Object,
+  },
+  formWrapComponent: {
+    type: definePropType<'dialog' | 'drawer' | ''>([String]),
+    default: 'dialog',
+  },
+  formWrapComponentProps: {
+    type: Object,
   },
 } as const)
 export type SchemaTableProps = ExtractPropTypes<typeof schemaTableProps>

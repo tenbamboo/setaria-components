@@ -2,31 +2,24 @@
 import {
   ElCol,
   ElDatePicker,
-  ElDropdown,
-  ElDropdownItem,
-  ElDropdownMenu,
   ElFormItem,
   ElIcon,
   ElInput,
-  ElLink,
   ElOption,
   ElRow,
   ElSelect,
   ElTimePicker,
   ElTooltip,
 } from 'element-plus'
-import { ArrowDown, Warning } from '@element-plus/icons-vue'
-// import { VxeTableDefines } from 'vxe-table'
+import { Warning } from '@element-plus/icons-vue'
 import { isEmpty, isNumber } from 'lodash-unified'
-// import dayjs from 'dayjs'
 import XEUtils from 'xe-utils'
+import dayjs from 'dayjs'
 import { useLocale } from '@setaria-components/hooks'
 import { type Arrayable, isFunction } from '@setaria-components/utils'
 import type { VxeColumnProps, VxeColumnSlots } from 'vxe-table'
 import type { FormItemRule } from 'element-plus'
 import type { Slot, Slots, VNode } from 'vue'
-
-// import type { schemaTableProps } from '../schema-table/src/props'
 import type {
   AllowSchemaFormatTypeForDatePicker,
   SchemaProperties,
@@ -36,7 +29,6 @@ import type {
 } from './schema.type'
 
 const visibleStorageKey = 'VXE_TABLE_CUSTOM_COLUMN_VISIBLE'
-const dragSortStorageKey = 'VXE_TABLE_CUSTOM_COLUMN_DRAG_SORT'
 
 declare interface ElInputEvent {
   formatter: (value: string) => string
@@ -308,6 +300,11 @@ export const createSchemaFormItem = (
         component = (
           <ElDatePicker
             type={schemaItem.format as AllowSchemaFormatTypeForDatePicker}
+            // value-format={
+            //   schemaItem.format === 'date'
+            //     ? 'YYYY-MM-DD'
+            //     : 'YYYY-MM-DD HH:mm:ss'
+            // }
             {...getCommonProps('2')}
           />
         ) as VNode
@@ -459,32 +456,27 @@ function createFormatter(property: SchemaProperties) {
   // }
   if (format === 'time') {
     return function formatter(value: any) {
-      if (isEmpty(value)) {
+      if (!value) {
         return ''
       }
-      return value
+      return dayjs(value).format('HH:mm:ss')
     }
   }
-  // 枚举值处理
-  const dictList = oneOf || anyOf
-  if (!isEmpty(dictList)) {
-    const getDisplayDictLabel = (val: string) => {
-      const dict = dictList?.find((item) => item.const === val)
-      return dict ? dict.title : val
-    }
+
+  if (format === 'date') {
     return function formatter(value: any) {
-      if (Array.isArray(value)) {
-        const res = value
-          .map((cv) => {
-            const displayDictLabel = getDisplayDictLabel(cv)
-            return displayDictLabel
-          })
-          .join(', ')
-        return res
-      } else if (typeof value === 'number' || typeof value === 'string') {
-        return getDisplayDictLabel(`${value}`)
+      if (!value) {
+        return ''
       }
-      return value
+      return dayjs(value).format('YYYY-MM-DD')
+    }
+  }
+  if (format === 'datetime') {
+    return function formatter(value: any) {
+      if (!value) {
+        return ''
+      }
+      return dayjs(value).format('YYYY-MM-DD HH:mm:ss')
     }
   }
   if (format === 'currency') {
@@ -521,6 +513,28 @@ function createFormatter(property: SchemaProperties) {
       //   }
       //   return value
       // }
+    }
+  }
+  // 枚举值处理
+  const dictList = oneOf || anyOf
+  if (!isEmpty(dictList)) {
+    const getDisplayDictLabel = (val: string) => {
+      const dict = dictList?.find((item) => item.const === val)
+      return dict ? dict.title : val
+    }
+    return function formatter(value: any) {
+      if (Array.isArray(value)) {
+        const res = value
+          .map((cv) => {
+            const displayDictLabel = getDisplayDictLabel(cv)
+            return displayDictLabel
+          })
+          .join(', ')
+        return res
+      } else if (typeof value === 'number' || typeof value === 'string') {
+        return getDisplayDictLabel(`${value}`)
+      }
+      return value
     }
   }
 }
@@ -639,355 +653,6 @@ function setOtherColumns(ret: any[], props: any) {
     })
   }
 }
-// 设置操作按钮区域内容
-function setOperColumn(ret: any[], props: any, emit: Function) {
-  if (!props.showOper) {
-    return
-  }
-  const { t } = useLocale()
-
-  const onCustomButtonClick = (key: string, scope: any) => {
-    // const {
-    //   beforeUpdateRow,
-    //   isEditOnRow,
-    //   onTableDeleteClick,
-    //   // t,
-    //   MODIFY_BUTTON,
-    //   DELETE_BUTTON,
-    //   ROW_MANUAL_SAVE_BUTTON,
-    //   ROW_MANUAL_CANCEL_BUTTON,
-    // } = this
-    // const tableRef = this.getTableActionRef()
-    return (event?: Event) => {
-      if (event) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      emit('oper-button-click', key, scope)
-      //   // 修改按钮点击事件处理
-      //   if (key === MODIFY_BUTTON.key) {
-      //     this.controlStatus = EDIT_TYPE.UPDATE
-      //     let currentRow = scope.row
-      //     // 对话框编辑数据的场合
-      //     if (!isEditOnRow) {
-      //       const exec = () => {
-      //         this.isShowForm = true
-      //         this.$emit('row-buttonClick', key, scope)
-      //       }
-      //       if (typeof beforeUpdateRow === 'function') {
-      //         const afterExec = (updatedRow) => {
-      //           if (updatedRow) {
-      //             scope.row = _.assign(scope.row, updatedRow)
-      //             currentRow = _.assign(currentRow, updatedRow)
-      //           }
-      //           exec()
-      //           this.initialRowData(currentRow)
-      //         }
-      //         const updateRes = beforeUpdateRow(scope)
-      //         if (updateRes && updateRes.then) {
-      //           updateRes.then((res) => {
-      //             afterExec(res)
-      //           })
-      //         } else {
-      //           afterExec(updateRes)
-      //         }
-      //       } else {
-      //         exec()
-      //         this.initialRowData(currentRow)
-      //       }
-      //     } else {
-      //       // // 行上编辑数据的场合
-      //       // if (this.editingRow) {
-      //       //   this.$message({
-      //       //     message: t('el.protable.onlyEditOne'),
-      //       //     type: 'error'
-      //       //   });
-      //       //   return;
-      //       // }
-      //       const afterExec = (updatedRow) => {
-      //         if (updatedRow) {
-      //           scope.row = _.assign(scope.row, updatedRow)
-      //           currentRow = _.assign(currentRow, updatedRow)
-      //         }
-      //         this.initialRowData(currentRow)
-      //         this.editingRow = scope.row
-      //         this.setActiveRow()
-      //       }
-      //       if (typeof beforeUpdateRow === 'function') {
-      //         const updateRes = beforeUpdateRow(scope)
-      //         if (updateRes && updateRes.then) {
-      //           updateRes.then((res) => {
-      //             afterExec(res)
-      //           })
-      //         } else {
-      //           afterExec(updateRes)
-      //         }
-      //       } else {
-      //         afterExec()
-      //       }
-      //     }
-      //     // 删除按钮点击事件处理
-      //   } else if (key === DELETE_BUTTON.key) {
-      //     this.controlStatus = EDIT_TYPE.DELETE
-      //     onTableDeleteClick([scope.row]).then(() => {
-      //       this.$emit('row-buttonClick', key, scope)
-      //     })
-      //     // 保存按钮点击事件
-      //   } else if (key === ROW_MANUAL_SAVE_BUTTON.key) {
-      //     tableRef
-      //       .validate(this.editingRow)
-      //       .then((isNoValid) => {
-      //         if (!isNoValid) {
-      //           const afterExec = () => {
-      //             tableRef.clearActived().then(() => {
-      //               this.currentFormData = null
-      //               this.editingRow = null
-      //               this.setChangeMode(scope.row, this.controlStatus)
-      //               this.$emit('row-buttonClick', key, scope)
-      //             })
-      //           }
-      //           const fun = this.save(scope.row, this.controlStatus, scope)
-      //           if (typeof this.save === 'function' && fun.then) {
-      //             fun.then(() => {
-      //               afterExec()
-      //             })
-      //           } else {
-      //             afterExec()
-      //           }
-      //         }
-      //       })
-      //       .catch(() => {
-      //         this.$emit('row-buttonClick', key, scope)
-      //       })
-      //     // 取消按钮点击事件处理
-      //   } else if (key === ROW_MANUAL_CANCEL_BUTTON.key) {
-      //     this.cancelRowEdit()
-      //     this.$emit('row-buttonClick', key, scope)
-      //   } else {
-      //     this.$emit('row-buttonClick', key, scope)
-      //   }
-    }
-  }
-
-  ret.push({
-    title: t('sc.schemaTable.operation'),
-    fixed: 'right',
-    align: 'center',
-    type: 'operation',
-    width: props.operWidth,
-    className: 'sc-schema-table__control-column',
-    slots: {
-      default(scope: any) {
-        const controlColumnDefaultSlot = []
-        const maxDisplayCount = props.operMaxDisplayCount
-          ? props.operMaxDisplayCount + 1
-          : props.operMaxDisplayCount
-
-        // if ($scopedSlots.controlColumn) {
-        //   controlColumnDefaultSlot.push($scopedSlots.controlColumn(scope));
-        //   return controlColumnDefaultSlot;
-        // }
-        let rowButtonList = [] as any[]
-        // 添加自定义按钮的前提是必须为非行内编辑激活状态
-        if (
-          props.operButtons
-          //  && !getIsEditOnRow()
-        ) {
-          rowButtonList = props.operButtons(scope) || []
-        }
-        // if ($scopedSlots.rowButtons && !getIsEditOnRow()) {
-        //   rowButtonList.push({render: (scope) => {
-        //     return (
-        //       $scopedSlots.rowButtons(scope)
-        //     );
-        //   }});
-        // }
-
-        if (!props.labelMode) {
-          // 添加删除按钮
-          // 当前编辑状态为激活状态时，需要隐藏删除按钮
-          // 以行维度控制是否可以显示删除按钮
-          //   if (canDelete && !isActiveByRow(scope.row)) {
-          //     const deleteButtonRender = () => {
-          //       if ($scopedSlots.deleteData) {
-          //         DELETE_BUTTON.render = (scope) => {
-          //           scope.$tableDataEditing = (editingRow !== null);
-          //           const handleClick = (evt) => {
-          //             if (scope.$tableDataEditing) {
-          //               evt.preventDefault();
-          //               evt.stopPropagation();
-          //               return () => {};
-          //             }
-          //             return onCustomButtonClick(DELETE_BUTTON.key, scope)(evt);
-          //           };
-          //           return (
-          //             <span class="pro-table__control_column_button" onClick={handleClick}>
-          //               { $scopedSlots.deleteData(scope) }
-          //             </span>
-          //           );
-          //         };
-          //       }
-          //       DELETE_BUTTON.disabled = (editingRow !== null);
-          //       // 删除按钮移动到行尾
-          //       rowButtonList.push(DELETE_BUTTON);
-          //     };
-          //     if (canDeleteRow) {
-          //       if (canDeleteRow(scope)) {
-          //         deleteButtonRender(scope);
-          //       }
-          //     } else {
-          //       deleteButtonRender(scope);
-          //     }
-          //   }
-          //   if ((forceEditOnRow !== true) || (forceEditOnRow && innerEditConfig.trigger === 'manual')) {
-          //     if (isActiveByRow(scope.row)) {
-          //       if ($scopedSlots.cancelData) {
-          //         ROW_MANUAL_CANCEL_BUTTON.render = (scope) => {
-          //           return (
-          //             <span
-          //               class="pro-table__control_column_button"
-          //               onClick={onCustomButtonClick(ROW_MANUAL_CANCEL_BUTTON.key, scope)}>
-          //               { $scopedSlots.cancelData(scope) }
-          //             </span>
-          //           );
-          //         };
-          //       }
-          //       rowButtonList.unshift(ROW_MANUAL_CANCEL_BUTTON);
-          //       if ($scopedSlots.saveData) {
-          //         ROW_MANUAL_SAVE_BUTTON.render = (scope) => {
-          //           return (
-          //             <span class="pro-table__control_column_button" onClick={onCustomButtonClick(ROW_MANUAL_SAVE_BUTTON.key, scope)}>
-          //               { $scopedSlots.saveData(scope) }
-          //             </span>
-          //           );
-          //         };
-          //       }
-          //       rowButtonList.unshift(ROW_MANUAL_SAVE_BUTTON);
-          //     // 以行维度控制是否可以显示修改按钮
-          //     } else if (canUpdate) {
-          //       const modifyButtonRender = () => {
-          //         if ($scopedSlots.modifyData) {
-          //           scope.$tableDataEditing = (editingRow !== null);
-          //           const handleClick = (evt) => {
-          //             if (scope.$tableDataEditing) {
-          //               evt.preventDefault();
-          //               evt.stopPropagation();
-          //               return () => {};
-          //             }
-          //             return onCustomButtonClick(MODIFY_BUTTON.key, scope)(evt);
-          //           };
-          //           MODIFY_BUTTON.render = (scope) => {
-          //             return (
-          //               <span class="pro-table__control_column_button" onClick={handleClick}>
-          //                 { $scopedSlots.modifyData(scope, editingRow) }
-          //               </span>
-          //             );
-          //           };
-          //         }
-          //         MODIFY_BUTTON.disabled = (editingRow !== null);
-          //         rowButtonList.unshift(MODIFY_BUTTON);
-          //       };
-          //       if (canUpdateRow) {
-          //         if (canUpdateRow(scope)) {
-          //           modifyButtonRender();
-          //         }
-          //       } else {
-          //         modifyButtonRender();
-          //       }
-          //     }
-          //   }
-          // }
-        }
-        if (!isEmpty(rowButtonList)) {
-          if (rowButtonList.length <= maxDisplayCount) {
-            rowButtonList.forEach((button: any) => {
-              let ret = {}
-              const classList = []
-              classList.push('schema-table__control_column_button')
-              // if (render) {
-              //   ret = render(scope)
-              // } else if (label && label.indexOf('el-') === 0) {
-              //   classList.push('pro-table__control_column_icon_button', label)
-              //   ret = (
-              //     <i
-              //       class={classList}
-              //       onClick={onCustomButtonClick(key, scope)}
-              //     ></i>
-              //   )
-              // } else {
-              ret = (
-                <ElLink
-                  underline={false}
-                  type="primary"
-                  class={classList}
-                  onClick={onCustomButtonClick(button.key, scope)}
-                >
-                  {button.label}
-                </ElLink>
-              )
-              // }
-              controlColumnDefaultSlot.push(ret)
-            })
-          } else {
-            let i = 0
-            for (i = 0; i < maxDisplayCount - 1; i += 1) {
-              const btnFirst = rowButtonList[i]
-              controlColumnDefaultSlot.push(
-                <ElLink
-                  underline={false}
-                  type="primary"
-                  onClick={onCustomButtonClick(btnFirst.key, scope)}
-                >
-                  {btnFirst.label}
-                </ElLink>
-              )
-            }
-            const onCommand = (key: string) => {
-              onCustomButtonClick(key, scope)()
-              // onCustomButtonClick(key, scope)
-            }
-            const moreElt = (
-              <ElDropdown
-                class="sc-schema-table_column-more-button"
-                onCommand={onCommand}
-                v-slots={{
-                  dropdown: () => {
-                    return (
-                      <ElDropdownMenu>
-                        {rowButtonList.map(({ key, label }, index) => {
-                          if (index >= i) {
-                            return (
-                              <ElDropdownItem command={key}>
-                                <ElLink type="primary" underline={false}>
-                                  {label}
-                                </ElLink>
-                              </ElDropdownItem>
-                            )
-                          }
-                          return null
-                        })}
-                      </ElDropdownMenu>
-                    )
-                  },
-                }}
-              >
-                <ElLink underline={false} type="primary">
-                  {t('sc.schemaTable.more')}
-
-                  <ElIcon>
-                    <ArrowDown />
-                  </ElIcon>
-                </ElLink>
-              </ElDropdown>
-            )
-            controlColumnDefaultSlot.push(moreElt)
-          }
-        }
-        return controlColumnDefaultSlot
-      },
-    },
-  })
-}
 
 function getCustomStorageMap(key: string) {
   // const version = GlobalConfig.version
@@ -1056,7 +721,7 @@ export const createSchemaTableColumns = (
       column.fixed = uiProperty.fixed
       // 是否显示
 
-      setColumnVisible(column, uiSchema, props)
+      setColumnVisible(column, uiProperty, props)
       // column.visible = !(
       //   uiProperty.visible === false || uiProperty.columnVisible === false
       // )
@@ -1083,8 +748,5 @@ export const createSchemaTableColumns = (
   })
   // 设置其他默认列
   setOtherColumns(ret, props)
-  // 设置操作列
-  setOperColumn(ret, props, emit)
-
   return ret
 }

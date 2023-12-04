@@ -1,6 +1,6 @@
 import { formProps } from 'element-plus'
 import { buildProps } from '@setaria-components/utils'
-import type { ExtractPropTypes, PropType, VNode } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type {
   SchemaProps,
   SchemaUiProps,

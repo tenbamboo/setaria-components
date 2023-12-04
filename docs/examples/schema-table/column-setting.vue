@@ -1,5 +1,4 @@
 <template>
-  123123
   <sc-schema-table
     ref="schemaTableRef"
     :schema="schema"

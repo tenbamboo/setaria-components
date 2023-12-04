@@ -216,7 +216,7 @@ export const useEditable = (
 
     // 获取详情的外部展示组件
     const getWrapComponent = () => {
-      let component = null
+      let component: any = null
       if (props.formWrapComponent === 'drawer') {
         component = ElDrawer
       } else {
@@ -570,7 +570,7 @@ export const useEditable = (
           className: 'sc-schema-table__control-column',
           slots: {
             default(scope: any) {
-              const controlColumnDefaultSlot = []
+              const controlColumnDefaultSlot: any = []
               const maxDisplayCount = props.operMaxDisplayCount
                 ? props.operMaxDisplayCount + 1
                 : props.operMaxDisplayCount
@@ -636,8 +636,8 @@ export const useEditable = (
               if (!isEmpty(rowButtonList)) {
                 if (rowButtonList.length <= maxDisplayCount) {
                   rowButtonList.forEach((button: any) => {
-                    let ret = {}
-                    const classList = []
+                    let ret: any = {}
+                    const classList: any[] = []
                     classList.push('schema-table__control_column_button')
                     // if (render) {
                     //   ret = render(scope)

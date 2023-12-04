@@ -588,14 +588,11 @@ function setColumnNaviveOptions(
   column: VxeColumnPropsByCustom,
   uiProperty: SchemaUiPropsByTable
 ) {
-  if (!isEmpty(uiProperty.options)) {
+  if (uiProperty.options) {
     Object.keys(uiProperty.options).forEach((optionKey) => {
-      // if (has(column, optionKey)) {
-      // res[key ] = props[key as keyof typeof props]
-
-      column[optionKey as keyof typeof column] =
-        uiProperty?.options?.[optionKey]
-      // }
+      column[optionKey as keyof VxeColumnPropsByCustom] = uiProperty?.options?.[
+        optionKey
+      ] as VxeColumnPropsByCustom[keyof VxeColumnPropsByCustom]
     })
   }
 }

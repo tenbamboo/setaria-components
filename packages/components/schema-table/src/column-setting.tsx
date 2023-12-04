@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { computed, nextTick, reactive, ref } from 'vue'
 import { ElCheckbox, ElIcon, ElLink, ElPopover, ElTree } from 'element-plus'
 import { Rank, Setting } from '@element-plus/icons-vue'
 import { remove, uniq } from 'lodash-unified'
 import XEUtils from 'xe-utils'
 import { useLocale } from '@setaria-components/hooks'
+import type { CheckboxValueType } from 'element-plus'
 import type { Ref } from 'vue'
 import type { VxeGridInstance } from 'vxe-table'
 
@@ -222,7 +223,8 @@ export const useColumnSetting = (
   const handlerColumnSettingHide = () => {
     emit('column-setting-hide')
   }
-  const hanlderAllCheckChanged = (checked: boolean) => {
+  const hanlderAllCheckChanged = (val: CheckboxValueType) => {
+    const checked = val as boolean
     treeData.value.forEach(({ field }: any) => {
       const column = xTable.value?.getColumnByField(field)
       if (column) {
@@ -294,8 +296,8 @@ export const useColumnSetting = (
               width="240"
               trigger="click"
               popper-class="sc-schema-table_column-setting-tree"
-              onShow={handlerColumnSettingShow}
-              onHide={handlerColumnSettingHide}
+              onBefore-enter={handlerColumnSettingShow}
+              onBefore-leave={handlerColumnSettingHide}
               v-slots={{
                 reference: () => {
                   return (
@@ -339,8 +341,8 @@ export const useColumnSetting = (
                 default-checked-keys={checkedKeys}
                 allow-drop={columnSettingAllowDrop}
                 // on-check={onColumnSettingCheck}
-                onCheckChange={handlerColumnSettingTreeNodeCheck}
-                onNodeDragEnd={handlerColumnSettingNodeDragEnd}
+                onCheck-change={handlerColumnSettingTreeNodeCheck}
+                onNode-drag-end={handlerColumnSettingNodeDragEnd}
                 render-content={renderContent}
               />
             </ElPopover>

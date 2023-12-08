@@ -19,7 +19,7 @@ import { isFunction } from '@vue/shared'
 // import { formContextKey, formItemContextKey } from './constants'
 // import { ElForm } from 'element-plus'
 //
-import { ElButton, ElCol, ElIcon, ElLink } from 'element-plus'
+import { ElButton, ElCol, ElIcon, ElLink, useLocale } from 'element-plus'
 import {
   ArrowDown,
   ArrowUp,
@@ -33,7 +33,7 @@ import { cloneDeep, isEmpty } from 'lodash-unified'
 //   createSearchFormItem,
 //   createSearchFormRules,
 // } from '../../common-search/builder'
-import { useLocale } from '@setaria-components/hooks'
+// import { useLocale } from '@setaria-components/hooks'
 import ScSchemaForm from '@setaria-components/components/schema-form'
 
 import { searchFormProps } from './props'

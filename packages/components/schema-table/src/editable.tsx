@@ -13,13 +13,14 @@ import {
   ElIcon,
   ElLink,
   ElMessageBox,
+  useLocale,
 } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue'
 
 import { assign, cloneDeep, isEmpty, merge } from 'lodash-unified'
 // import XEUtils from 'xe-utils'
 import { isFunction } from '@setaria-components/utils'
-import { useLocale } from '@setaria-components/hooks'
+// import { useLocale } from '@setaria-components/hooks'
 import ScSchemaForm from '@setaria-components/components/schema-form'
 import {
   callbackExec,

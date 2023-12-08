@@ -19,7 +19,7 @@ const { theme, page } = useData()
 
 const currentLink = computed(() => {
   if (!inBrowser) {
-    return `/${page.value?.frontmatter?.lang || ''}/`
+    return `/setaria-components/zh-CN/`
   }
   const existLangIndex = theme.value.langs.findIndex((lang) =>
     window?.location?.pathname.includes(`/${lang}`)

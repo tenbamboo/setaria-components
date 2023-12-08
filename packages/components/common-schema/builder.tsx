@@ -10,12 +10,13 @@ import {
   ElSelect,
   ElTimePicker,
   ElTooltip,
+  useLocale,
 } from 'element-plus'
 import { Warning } from '@element-plus/icons-vue'
 import { isEmpty, isNumber } from 'lodash-unified'
 import XEUtils from 'xe-utils'
 import dayjs from 'dayjs'
-import { useLocale } from '@setaria-components/hooks'
+// import {useLocale} from '@setaria-components/hooks'
 import { type Arrayable, isFunction } from '@setaria-components/utils'
 import type { VxeColumnProps, VxeColumnSlots } from 'vxe-table'
 import type { FormItemRule } from 'element-plus'

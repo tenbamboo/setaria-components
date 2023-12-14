@@ -335,11 +335,23 @@
   },
   "zh-CN": {
     "test": {
-      "text": "业务复合组件",
+      "text": "Schema组件",
       "children": [
         {
-          "link": "/search-page",
-          "text": "Search Page"
+          "link": "/schema-form",
+          "text": "Schema Form"
+        },
+        {
+          "link": "/search-form",
+          "text": "Search Form"
+        },
+        {
+          "link": "/schema-table",
+          "text": "Schema Table"
+        },
+        {
+          "link": "/schema-table-edit",
+          "text": "Schema Table For Edit"
         }
       ]
     }

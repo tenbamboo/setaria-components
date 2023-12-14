@@ -3,6 +3,14 @@
 @use 'common/var' as *;
 
 @include b(search-form) {
+  &.el-form--label-top {
+    .el-row {
+      align-items: center;
+    }
+    .sc-search-form-button-area {
+      margin-top: 8px;
+    }
+  }
   .sc-search-form-button-area {
     text-align: right;
   }

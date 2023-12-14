@@ -219,11 +219,26 @@ export default defineComponent({
     }
 
     const createForm = () => {
+      const excludeMyCompProps = Object.keys(props).reduce((res, key) => {
+        if (
+          ![
+            'buttonLayout',
+            'collapse',
+            'expand',
+            'forceCollapseItems',
+            'submitting',
+          ].includes(key)
+        ) {
+          res[key as keyof typeof props] = props[key as keyof typeof props]
+        }
+        return res
+      }, {} as any)
+
       return (
         <ScSchemaForm
           ref={formRef}
-          class="sc-search-form"
-          {...props}
+          class={['sc-search-form', `is-label-${props.labelPosition}`]}
+          {...excludeMyCompProps}
           uiSchema={innerUiSchema.value}
           onData-change={handlerChange}
         >

@@ -1,24 +1,5 @@
-import {
-  // Fragment,
-  computed,
-  // defineExpose,
-  defineComponent,
-  // reactive,
-  // nextTick,
-  // onBeforeUnmount,
-  // onMounted,
-  // onUpdated,
-  // computed,
-  ref,
-  watch,
-} from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { isFunction } from '@vue/shared'
-// import { useResizeObserver } from '@vueuse/core'
-// import { throwError } from '@element-plus/utils'
-// import { useNamespace } from '@setaria-components/hooks'
-// import { formContextKey, formItemContextKey } from './constants'
-// import { ElForm } from 'element-plus'
-//
 import { ElButton, ElCol, ElIcon, ElLink, useLocale } from 'element-plus'
 import {
   ArrowDown,
@@ -28,12 +9,6 @@ import {
 } from '@element-plus/icons-vue'
 import { cloneDeep, isEmpty } from 'lodash-unified'
 
-// import {
-//   createLayoutWrapper,
-//   createSearchFormItem,
-//   createSearchFormRules,
-// } from '../../common-search/builder'
-// import { useLocale } from '@setaria-components/hooks'
 import ScSchemaForm from '@setaria-components/components/schema-form'
 
 import { searchFormProps } from './props'
@@ -43,8 +18,7 @@ import type {
 } from '@setaria-components/components/schema-form'
 import type { FormItemProp, FormValidateCallback } from 'element-plus'
 import type { SchemaUiProps } from '../../common-schema/schema.type'
-
-// import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@setaria-components/constants'
+import type { SchemaFormEvents } from '../../schema-form/index'
 
 export default defineComponent({
   name: 'ScSearchForm',
@@ -153,7 +127,7 @@ export default defineComponent({
       })
     }
 
-    const handlerChange = (key: string, value: any, model: any) => {
+    const handlerChange: SchemaFormEvents.DataChange = (key, value, model) => {
       emit('data-change', key, value, model)
     }
 

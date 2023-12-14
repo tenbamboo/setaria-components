@@ -7,4 +7,5 @@ export default ScSchemaTable
 
 export * from './src/schema-table'
 export * from './src/props'
+export * from './src/event.type'
 export type { SchemaTableInstance } from './src/instance'

@@ -17,6 +17,7 @@
 import { reactive, ref } from 'vue'
 import type {
   SchemaProps,
+  SchemaTableEvents,
   SchemaTableInstance,
   SchemaUiPropsByTable,
 } from 'setaria-components'
@@ -164,7 +165,10 @@ const handlerOperButtons = (val) => {
     },
   ]
 }
-const handlerOperButtonsClick = (key, scope) => {
+const handlerOperButtonsClick: SchemaTableEvents.OperButtonClick = (
+  key,
+  scope
+) => {
   console.log('handlerOperButtonsClick', key, scope)
 }
 </script>

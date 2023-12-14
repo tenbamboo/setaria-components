@@ -37,8 +37,7 @@ schema-form/schema-ui
 
 ## 事件相关
 
-- 可通过`@change`事件来监控表单项中的值变更
-- 可通过`@submit`事件来监控用户在输入框中按`回车`的事件
+- 可通过`@data-change`事件来监控表单项中的值变更
 
 :::demo
 

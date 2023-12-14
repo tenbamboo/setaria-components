@@ -4,7 +4,7 @@
     :schema="schema"
     :ui-schema="uiSchema"
     :data="dataList"
-    @sort-change="handleSelectionChange"
+    @sort-change="handleSortChange"
   />
   <!-- -->
 </template>
@@ -13,6 +13,7 @@
 import { reactive, ref } from 'vue'
 import type {
   SchemaProps,
+  SchemaTableEvents,
   SchemaTableInstance,
   SchemaUiPropsByTable,
 } from 'setaria-components'
@@ -125,7 +126,7 @@ const dataList = Array.from({ length: 10 }).map((item, index) => {
     testSelect1: 't1',
   }
 })
-const handleSelectionChange = ({ field, order }) => {
+const handleSortChange: SchemaTableEvents.SortChange = ({ field, order }) => {
   // 这里可以请求远程服务器来获取排序后的数据
   console.log(field, order)
 }

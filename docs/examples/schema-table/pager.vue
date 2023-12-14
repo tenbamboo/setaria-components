@@ -16,6 +16,7 @@
 import { reactive, ref } from 'vue'
 import type {
   SchemaProps,
+  SchemaTableEvents,
   SchemaTableInstance,
   SchemaUiPropsByTable,
 } from 'setaria-components'
@@ -127,7 +128,7 @@ const dataList = Array.from({ length: 10 }).map((item, index) => {
     testCustomSlot: 2,
   }
 })
-const handlePageChange = (val) => {
+const handlePageChange: SchemaTableEvents.PageChange = (val) => {
   console.log('handlePageChange', val)
 }
 </script>

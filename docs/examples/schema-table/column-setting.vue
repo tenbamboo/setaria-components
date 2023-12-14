@@ -20,6 +20,7 @@
 import { reactive, ref } from 'vue'
 import type {
   SchemaProps,
+  SchemaTableEvents,
   SchemaTableInstance,
   SchemaUiPropsByTable,
 } from 'setaria-components'
@@ -165,13 +166,14 @@ const handlerOperButtons = (val) => {
     },
   ]
 }
-const hanlderColumnSettingShow = () => {
+const hanlderColumnSettingShow: SchemaTableEvents.ColumnSettingShow = () => {
   console.log('hanlderColumnSettingShow')
 }
-const hanlderColumnSettingHide = () => {
+const hanlderColumnSettingHide: SchemaTableEvents.ColumnSettingHide = () => {
   console.log('hanlderColumnSettingHide')
 }
-const hanlderColumnSettingVisibleChange = (checkedKey) => {
-  console.log('hanlderColumnSettingVisibleChange', checkedKey)
-}
+const hanlderColumnSettingVisibleChange: SchemaTableEvents.ColumnSettingVisibleChange =
+  (checkedKey) => {
+    console.log('hanlderColumnSettingVisibleChange', checkedKey)
+  }
 </script>

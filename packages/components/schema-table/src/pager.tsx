@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 
 import { VxePager } from 'vxe-table'
+import type { VxePagerEvents } from 'vxe-table'
 const DEFAULT_PAGE_SIZE = 10
 const DEFAULT_PAGE_SIZES = [10, 20, 50, 100]
 export const usePager = (
@@ -53,7 +54,7 @@ export const usePager = (
     }
   )
 
-  const onPageChange = (val: any) => {
+  const onPageChange: VxePagerEvents.PageChange = (val: any) => {
     const { currentPage, pageSize } = val
     innerCurrentPage.value = currentPage
     innerPageSize.value = pageSize

@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElRate } from 'element-plus'
-import type { SchemaProps } from 'setaria-components'
+import type { SchemaProps, SeachFormEvents } from 'setaria-components'
 const formValue = reactive({
   testString: null,
   testDesc: null,
@@ -121,20 +121,20 @@ const schema = reactive<SchemaProps>({
     },
   },
 })
-const handlerChange = (key, value, model) => {
+const handlerChange: SeachFormEvents.DataChange = (key, value, model) => {
   console.log('change', key, value, model)
 }
-const handlerReset = () => {
+const handlerReset: SeachFormEvents.DataReset = () => {
   console.log('reset')
 }
-const handlerSubmit = (model) => {
+const handlerSubmit: SeachFormEvents.DataSubmit = (model) => {
   // 这里只是单独数据提交回调，如果想配合异步使用，请使用submitting属性
   console.log('submit', model)
 }
-const handlerCollapseChange = (expand) => {
+const handlerCollapseChange: SeachFormEvents.CollapseChange = (expand) => {
   console.log('collapse', expand)
 }
-const formSubmitting = (model) => {
+const formSubmitting: SeachFormEvents.Submitting = (model) => {
   // 这里模拟一个接口的返回
   return new Promise((resolve) => {
     console.log('formSubmitting', model)

@@ -7,4 +7,5 @@ export default ScSchemaForm
 
 export * from './src/schema-form'
 export * from './src/props'
+export * from './src/event.type'
 export type { SchemaFormInstance } from './src/instance'

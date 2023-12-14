@@ -7,4 +7,5 @@ export default ScSearchForm
 
 export * from './src/search-form'
 export * from './src/props'
+export * from './src/event.type'
 export type { SearchFormInstance } from './src/instance'

@@ -15,7 +15,11 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { SchemaProps, SchemaTableInstance } from 'setaria-components'
+import type {
+  SchemaProps,
+  SchemaTableEvents,
+  SchemaTableInstance,
+} from 'setaria-components'
 const schemaTableRef = ref<SchemaTableInstance>()
 
 const schema = reactive<SchemaProps>({
@@ -117,11 +121,14 @@ const dataList = Array.from({ length: 10 }).map((item, index) => {
   }
 })
 
-const handleSelectionChange = (selectionList, currentItem) => {
+const handleSelectionChange: SchemaTableEvents.SelectionChange = (
+  selectionList,
+  currentItem
+) => {
   console.log('handleSelectionChange', selectionList, currentItem)
 }
 
-const handleSelectionAll = (selectionList) => {
+const handleSelectionAll: SchemaTableEvents.SelectionAll = (selectionList) => {
   console.log('handleSelectionAll', selectionList)
 }
 

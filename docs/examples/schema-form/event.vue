@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElRate } from 'element-plus'
-import type { SchemaProps } from 'setaria-components'
+import type { SchemaFormEvents, SchemaProps } from 'setaria-components'
 const formValue = reactive({
   testCustomSlot: 3,
 })
@@ -109,7 +109,7 @@ const schema = reactive<SchemaProps>({
   },
 })
 
-const handlerChange = (schemaKey, val, model) => {
+const handlerChange: SchemaFormEvents.DataChange = (schemaKey, val, model) => {
   console.log(schemaKey, val, model)
 }
 </script>

@@ -24,6 +24,7 @@
     "prism-theme-vars": "^0.2.3",
     "setaria-components": "npm:setaria-components@latest",
     "vue": "^3.2.37",
+    "vue-i18n": "9.8.0",
     "vxe-table": "^4.5.13",
     "xe-utils": "^3.5.13"
   },

@@ -20,8 +20,6 @@ export default defineComponent({
   name: 'ScSchemaTable',
   props: schemaTableProps,
   emits: [
-    // 'input',
-    // 'update:modelValue',
     'data-change',
     'selection-change',
     'selection-all',

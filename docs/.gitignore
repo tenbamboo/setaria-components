@@ -1,4 +1,4 @@
-.vitepress/i18n/*
+# .vitepress/i18n/*
 # .vitepress/crowdin/*
 # !.vitepress/crowdin/en-US
 

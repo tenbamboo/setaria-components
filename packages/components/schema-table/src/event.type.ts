@@ -32,4 +32,12 @@ export namespace SchemaTableEvents {
   export type ColumnSettingVisibleChange = (checkedKeys: string[]) => void
 
   export type ColumnSettingSortChange = (sortKeys: string[]) => void
+
+  export type FormOpen = (currentFormData: any, controlStatus: string) => void
+
+  export type FormOpened = (currentFormData: any, controlStatus: string) => void
+
+  export type FormClose = (currentFormData: any, controlStatus: string) => void
+
+  export type FormClosed = (currentFormData: any, controlStatus: string) => void
 }

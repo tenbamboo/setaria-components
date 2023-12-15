@@ -22,7 +22,6 @@ import type { VxeColumnProps, VxeColumnSlots } from 'vxe-table'
 import type { FormItemRule } from 'element-plus'
 import type { Slot, Slots, VNode } from 'vue'
 import type {
-  AllowSchemaFormatTypeForDatePicker,
   SchemaProperties,
   SchemaProps,
   SchemaUiProps,
@@ -51,7 +50,7 @@ export function getComponentPlaceholder(property: SchemaProperties) {
     property.oneOf ||
     property.anyOf ||
     property.format === 'date' ||
-    property.format === 'datetime' ||
+    property.format === 'date-time' ||
     property.format === 'time'
     // property.requiredTip === 'select'
   ) {
@@ -297,10 +296,10 @@ export const createSchemaFormItem = (
         </ElSelect>
       ) as VNode
     } else if (schemaItem.type === 'string') {
-      if (['date', 'datetime'].includes(schemaItem.format ?? '')) {
+      if (['date', 'date-time'].includes(schemaItem.format ?? '')) {
         component = (
           <ElDatePicker
-            type={schemaItem.format as AllowSchemaFormatTypeForDatePicker}
+            type={schemaItem.format === 'date-time' ? 'datetime' : 'date'}
             // value-format={
             //   schemaItem.format === 'date'
             //     ? 'YYYY-MM-DD'
@@ -314,7 +313,10 @@ export const createSchemaFormItem = (
       } else {
         component = (<ElInput {...getCommonProps('1')}></ElInput>) as VNode
       }
-    } else if (schemaItem.type === 'number') {
+    } else if (
+      schemaItem.type &&
+      ['number', 'integer'].includes(schemaItem.type)
+    ) {
       const currencyProps = {} as ElInputEvent
       const handlerBlur = () => {
         const val = model[schemaKey]
@@ -472,7 +474,7 @@ function createFormatter(property: SchemaProperties) {
       return dayjs(value).format('YYYY-MM-DD')
     }
   }
-  if (format === 'datetime') {
+  if (format === 'date-time') {
     return function formatter(value: any) {
       if (!value) {
         return ''

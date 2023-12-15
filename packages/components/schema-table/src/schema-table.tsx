@@ -9,6 +9,7 @@ import { usePager } from './pager'
 import { useSelection } from './selection'
 import { useColumnSetting } from './column-setting'
 import { useEditable } from './editable'
+import type { SchemaProps } from '../../common-schema/schema.type'
 
 import type {
   VxeGridInstance,
@@ -96,7 +97,7 @@ export default defineComponent({
       () => [props.schema, props.uiSchema],
       () => {
         const list = createSchemaTableColumns(
-          props.schema,
+          props.schema as SchemaProps,
           props.uiSchema,
           slots,
           emit,
@@ -257,10 +258,15 @@ export default defineComponent({
 
     const { pagerRender } = usePager(props, emit, handlerSelectionChange)
 
+    const getTableInstance = () => {
+      return xTable.value
+    }
+
     expose({
       setSelection,
       clearSelection,
       getSelection,
+      getTableInstance,
     })
 
     return () => {

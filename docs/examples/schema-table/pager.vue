@@ -1,6 +1,8 @@
 <template>
   <sc-schema-table
     ref="schemaTableRef"
+    v-model:page-num="pageNum"
+    v-model:page-size="pageSize"
     :schema="schema"
     :ui-schema="uiSchema"
     :data="dataList"
@@ -46,7 +48,7 @@ const schema = reactive<SchemaProps>({
     },
     testDateTime: {
       type: 'string',
-      format: 'datetime',
+      format: 'date-time',
       title: '测试日期时间',
     },
     testTime: {
@@ -115,6 +117,8 @@ const uiSchema = reactive<Record<string, SchemaUiPropsByTable>>({
 })
 
 const pageTotal = 100
+const pageNum = ref(1)
+const pageSize = ref(10)
 
 const dataList = Array.from({ length: 10 }).map((item, index) => {
   return {
@@ -129,6 +133,6 @@ const dataList = Array.from({ length: 10 }).map((item, index) => {
   }
 })
 const handlePageChange: SchemaTableEvents.PageChange = (val) => {
-  console.log('handlePageChange', val)
+  console.log('handlePageChange', val, pageNum.value, pageSize.value)
 }
 </script>

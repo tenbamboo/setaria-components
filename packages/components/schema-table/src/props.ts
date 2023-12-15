@@ -8,7 +8,7 @@ import type {
   SchemaUiPropsByTable,
 } from '../../common-schema/schema.type'
 
-export const schemaTableProps = buildProps({
+export const schemaTablePropsReal = {
   schema: {
     type: Object as PropType<SchemaProps>,
     required: true,
@@ -217,7 +217,9 @@ export const schemaTableProps = buildProps({
   formWrapComponentProps: {
     type: Object,
   },
-} as const)
+}
+
+export const schemaTableProps = buildProps({ ...schemaTablePropsReal } as const)
 export type SchemaTableProps = ExtractPropTypes<typeof schemaTableProps>
 
 export const SchemaTableEditType = {

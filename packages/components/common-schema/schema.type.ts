@@ -1,14 +1,19 @@
 import type { VxeColumnPropTypes } from 'vxe-table'
 
-export declare type AllowScehmaTypeType = 'string' | 'number' | 'index'
+export declare type AllowScehmaTypeType =
+  | 'string'
+  | 'number'
+  | 'index'
+  | 'integer'
 
 export declare type AllowSchemaFormatType =
   | 'currency' // type为 number 时可用
   | 'date' // type为string时可用
-  | 'datetime' // type为string时可用
+  | 'date-time' // type为string时可用
   | 'time' // type为string时可用
-
-export declare type AllowSchemaFormatTypeForDatePicker = 'date' | 'datetime'
+  | 'int32' // 暂未实现
+  | 'int64' // 暂未实现
+  | 'bigdecimal' //暂未实现
 
 export declare type EnumType = {
   const?: any

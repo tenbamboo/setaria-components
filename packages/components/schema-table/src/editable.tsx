@@ -215,6 +215,22 @@ export const useEditable = (
       })
     }
 
+    const handerWrapComponentOpen = () => {
+      emit('form-open', currentFormData.value, controlStatus.value)
+    }
+
+    const handerWrapComponentOpened = () => {
+      emit('form-opened', currentFormData.value, controlStatus.value)
+    }
+
+    const handerWrapComponentClose = () => {
+      emit('form-close', currentFormData.value, controlStatus.value)
+    }
+
+    const handerWrapComponentClosed = () => {
+      emit('form-closed', currentFormData.value, controlStatus.value)
+    }
+
     // 获取详情的外部展示组件
     const getWrapComponent = () => {
       let component: any = null
@@ -247,6 +263,10 @@ export const useEditable = (
           v-slots={{
             footer: getFooterButton(),
           }}
+          onOpen={handerWrapComponentOpen}
+          onOpened={handerWrapComponentOpened}
+          onClose={handerWrapComponentClose}
+          onClosed={handerWrapComponentClosed}
         >
           {controlStatus.value === EDIT_TYPE.VIEW
             ? getViewDescriptionsRender(currentFormData)

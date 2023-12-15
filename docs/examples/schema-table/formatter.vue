@@ -41,7 +41,7 @@ const schema = reactive<SchemaProps>({
     },
     testDateTime: {
       type: 'string',
-      format: 'datetime',
+      format: 'date-time',
       title: '测试日期时间',
     },
     testTime: {

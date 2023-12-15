@@ -244,16 +244,17 @@ schema-table/column-setting
 
 ### SchemaTable Exposes
 
-| 方法名         | 说明                                                          | 类型                                                                                                                              |
-| -------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| setSelection   | 设置选中                                                      | ^[Function]`(row: Row) => void`                                                                                                   |
-| clearSelection | 手动清空用户的选择                                            | ^[Function]`() => void`                                                                                                           |
-| getSelection   | 获取用户选中的数据                                            | ^[Function]`() => Array<any>`                                                                                                     |
-| validate       | 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise。 | ^[Function]`(callback?: FormValidateCallback) => Promise<void>`                                                                   |
-| validateField  | 验证具体的某个字段。                                          | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
-| resetFields    | 重置该表单项，将其值重置为初始值，并移除校验结果              | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
-| scrollToField  | 滚动到指定的字段                                              | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
-| clearValidate  | 清理某个字段的表单验证信息。                                  | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| 方法名           | 说明                                                          | 类型                                                                                                                              |
+| ---------------- | ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| setSelection     | 设置选中                                                      | ^[Function]`(row: Row) => void`                                                                                                   |
+| clearSelection   | 手动清空用户的选择                                            | ^[Function]`() => void`                                                                                                           |
+| getSelection     | 获取用户选中的数据                                            | ^[Function]`() => Array<any>`                                                                                                     |
+| validate         | 对整个表单的内容进行验证。 接收一个回调函数，或返回 Promise。 | ^[Function]`(callback?: FormValidateCallback) => Promise<void>`                                                                   |
+| validateField    | 验证具体的某个字段。                                          | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined, callback?: FormValidateCallback \| undefined) => FormValidationResult` |
+| resetFields      | 重置该表单项，将其值重置为初始值，并移除校验结果              | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| scrollToField    | 滚动到指定的字段                                              | ^[Function]`(prop: FormItemProp) => void`                                                                                         |
+| clearValidate    | 清理某个字段的表单验证信息。                                  | ^[Function]`(props?: Arrayable<FormItemProp> \| undefined) => void`                                                               |
+| getTableInstance | 获取底层表格的示例 VxeGrid，一般用于直接操作其内容            | ^[Function]`() => VxeGridInstance`                                                                                                |
 
 ### SchemaTable Slots
 

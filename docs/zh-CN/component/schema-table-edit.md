@@ -101,6 +101,17 @@ schema-table-edit/schema-ui
 
 :::
 
+## 详情表单打开&关闭事件
+
+- 可通过`form-open`与`form-opened`两个回调来监控打开事件
+- 可通过`form-close`与`form-closed`两个回调来监控关闭事件
+
+:::demo
+
+schema-table-edit/events
+
+:::
+
 ## SchemaTable API
 
 ### SchemaTable Attributes
@@ -131,8 +142,12 @@ schema-table-edit/schema-ui
 
 - 相关基础事件请查看`SchemaTable`组件
 
-  | 名称 | 说明 | 类型 |
-  | ---- | ---- | ---- |
+  | 名称        | 说明                         | 类型                                                 |
+  | ----------- | ---------------------------- | ---------------------------------------------------- |
+  | form-open   | 明细组件打开的回调           | ^[Function]`(currentFormData,controlStatus) => void` |
+  | form-opened | 明细组件打开动画结束时的回调 | ^[Function]`(currentFormData,controlStatus) => void` |
+  | form-close  | 明细组件关闭的回调           | ^[Function]`(currentFormData,controlStatus) => void` |
+  | form-closed | 明细组件关闭动画结束时的回调 | ^[Function]`(currentFormData,controlStatus) => void` |
 
 ### SchemaTable Exposes
 

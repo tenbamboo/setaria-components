@@ -29,6 +29,7 @@ export default defineComponent({
     'update:pageSize',
     'update:pageNum',
     'cell-click',
+    'cell-dbclick',
     'oper-button-click',
     'column-setting-show',
     'column-setting-hide',
@@ -255,6 +256,9 @@ export default defineComponent({
     const handerCellClick: VxeTableEvents.CellClick = (val) => {
       emit('cell-click', val)
     }
+    const handerCellDbClick: VxeTableEvents.CellDblclick = (val) => {
+      emit('cell-dbclick', val)
+    }
 
     const { pagerRender } = usePager(props, emit, handlerSelectionChange)
 
@@ -310,6 +314,7 @@ export default defineComponent({
             seq-config={innerSeqConfig.value}
             // 事件相关
             onCellClick={handerCellClick}
+            onCellDblclick={handerCellDbClick}
             onRadioChange={handlerRadioChange}
             onCheckboxChange={handlerCheckboxChange}
             onCheckboxAll={handlerCheckboxAll}

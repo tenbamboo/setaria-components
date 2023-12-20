@@ -23,6 +23,10 @@ export namespace SchemaTableEvents {
     params: VxeTableDefines.CellClickEventParams<D>
   ) => void
 
+  export type CellDbClick<D = any> = (
+    params: VxeTableDefines.CellDblclickEventParams<D>
+  ) => void
+
   export type OperButtonClick = (key: string, scope: any) => void
 
   export type ColumnSettingShow = () => void

@@ -53,12 +53,13 @@ search-form/event
 
 此组件支持所有`el-form`与`scehma-form`中的属性，详细属性可[查看](https://element-plus.org/zh-CN/component/form.html#form-attributes)
 
-| 名称                 | 说明                                                  | 类型     | 默认值 | 必填 |
-| -------------------- | ----------------------------------------------------- | -------- | ------ | ---- |
-| collapse             | 是否开启折叠功能                                      | Boolean  | true   | 否   |
-| expand               | 折叠功能的状态                                        | Boolean  | false  | 否   |
-| force-collapse-items | 当被折叠时，强制显示几个表单项                        | N        | —      | 否   |
-| submitting           | 表单提交时的回调，需要返回 Promise 来告知是否处理完成 | Functoin | —      | 否   |
+| 名称                 | 说明                                                  | 类型                                                                                           | 默认值                                | 必填 |
+| -------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------- | ---- |
+| collapse             | 是否开启折叠功能                                      | Boolean                                                                                        | true                                  | 否   |
+| expand               | 折叠功能的状态                                        | Boolean                                                                                        | false                                 | 否   |
+| force-collapse-items | 当被折叠时，强制显示几个表单项                        | N                                                                                              | —                                     | 否   |
+| submitting           | 表单提交时的回调，需要返回 Promise 来告知是否处理完成 | Functoin                                                                                       | —                                     | 否   |
+| button-layout        | 按钮区域的自定义设置                                  | ^[String\[\]]`Array<'search' \| 'searchReset' \| 'collapse' \| 'reset' \| 'submit' \| 'slot'>` | ['search', 'searchReset', 'collapse'] | 否   |
 
 ### SearchForm Events
 

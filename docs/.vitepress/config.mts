@@ -42,7 +42,7 @@ languages.forEach((lang) => {
 })
 
 export const config: UserConfig = {
-  title: 'Element Plus',
+  title: 'Setaria Components',
   description: 'a Vue 3 based component library for designers and developers',
   lastUpdated: true,
   // base: process.env.NODE_ENV === 'production' ? '/setaria-components' : '/',

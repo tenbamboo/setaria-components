@@ -15,17 +15,17 @@ defineProps<{
 
 defineEmits(['toggle'])
 
-const { theme, page } = useData()
+// const { theme, page } = useData()
 
 const currentLink = computed(() => {
-  if (!inBrowser) {
-    return `/setaria-components/zh-CN/`
-  }
-  const existLangIndex = theme.value.langs.findIndex((lang) =>
-    window?.location?.pathname.includes(`/${lang}`)
-  )
+  // if (!inBrowser) {
+  //   return `/setaria-components/zh-CN/`
+  // }
+  // const existLangIndex = theme.value.langs.findIndex((lang) =>
+  //   window?.location?.pathname.includes(`/${lang}`)
+  // )
 
-  return existLangIndex === -1 ? '/' : `/${theme.value.langs[existLangIndex]}/`
+  return '/setaria-components/zh-CN/'
 })
 </script>
 
@@ -34,11 +34,7 @@ const currentLink = computed(() => {
     <div class="header-container">
       <div class="logo-container">
         <a :href="currentLink">
-          <img
-            class="logo"
-            src="/images/element-plus-logo.svg"
-            alt="Element Plus Logo"
-          />
+          <img class="logo" src="/images/logo.png" />Setaria Components
         </a>
       </div>
       <div class="content">
@@ -65,12 +61,15 @@ const currentLink = computed(() => {
 
   > a {
     height: 28px;
-    width: 128px;
+    width: 255px;
+    display: flex;
+    align-items: center;
   }
 
   .logo {
     position: relative;
-    height: 100%;
+    margin-right: 5px;
+    width: 38px;
   }
 }
 

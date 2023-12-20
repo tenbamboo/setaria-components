@@ -8,6 +8,7 @@
     :show-oper="true"
     :oper-width="'200px'"
     :oper-buttons="handlerOperButtons"
+    :oper-max-display-count="2"
     @oper-button-click="handlerOperButtonsClick"
   />
   <!-- -->

@@ -130,7 +130,10 @@ export const schemaTablePropsReal = {
     },
   },
   // 当前页号
-  pageNum: Number,
+  pageNum: {
+    type: Number,
+    default: 1,
+  },
   // 每页显示数据数量
   pageSize: Number,
   pageSizes: Array,
@@ -158,8 +161,6 @@ export const schemaTablePropsReal = {
     type: Boolean,
     default: false,
   },
-  // 行主键
-  rowKey: String,
   canAdd: {
     type: Boolean,
     default: true,

@@ -1,6 +1,6 @@
 import { computed, defineComponent, ref, watch } from 'vue'
 import { isFunction } from '@vue/shared'
-import { ElButton, ElCol, ElIcon, ElLink, useLocale } from 'element-plus'
+import { ElButton, ElCol, ElIcon, ElLink } from 'element-plus'
 import {
   ArrowDown,
   ArrowUp,
@@ -8,6 +8,7 @@ import {
   Search,
 } from '@element-plus/icons-vue'
 import { cloneDeep, isEmpty } from 'lodash-unified'
+import { useLocale } from '@setaria-components/hooks'
 
 import ScSchemaForm from '@setaria-components/components/schema-form'
 

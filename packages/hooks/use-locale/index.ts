@@ -1,7 +1,7 @@
 import { computed, inject, isRef, ref, unref } from 'vue'
 import { get, merge } from 'lodash-unified'
 import { localeContextKey } from 'element-plus'
-import elementZh from 'element-plus/dist/locale/zh-cn.mjs'
+// import elementZh from 'element-plus/dist/locale/zh-cn.mjs'
 import Zhcn from '@setaria-components/locale/lang/zh-cn'
 import type { MaybeRef } from '@vueuse/core'
 import type { Ref } from 'vue'
@@ -46,7 +46,5 @@ export const buildLocaleContext = (
 
 export const useLocale = (localeOverrides?: Ref<Language | undefined>) => {
   const locale = localeOverrides || inject(localeContextKey, ref())!
-  return buildLocaleContext(
-    computed(() => locale.value || merge(elementZh, Zhcn))
-  )
+  return buildLocaleContext(computed(() => locale.value || merge(Zhcn)))
 }

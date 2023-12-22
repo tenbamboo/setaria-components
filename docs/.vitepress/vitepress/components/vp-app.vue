@@ -5,7 +5,7 @@ import nprogress from 'nprogress'
 // import dayjs from 'dayjs'
 import { isClient, useEventListener, useToggle } from '@vueuse/core'
 import { merge } from 'lodash-unified'
-import elementZh from 'element-plus/dist/locale/zh-cn.mjs'
+// import elementZh from 'element-plus/dist/locale/zh-cn.mjs'
 // import elementEN from 'element-plus/dist/locale/en.mjs'
 import { zhCn } from '@setaria-components/locale'
 import { useSidebar } from '../composables/sidebar'
@@ -118,7 +118,7 @@ onMounted(async () => {
 
 const locale = computed(() => {
   // if (locale.value === 'zh-cn') {
-  return merge(elementZh, zhCn)
+  return merge(zhCn)
   // }
   // return merge(elementEN, en)
 })

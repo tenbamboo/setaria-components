@@ -3,7 +3,7 @@ import ElementPlus from 'element-plus'
 import VXETable from 'vxe-table'
 import 'vxe-table/lib/style.css'
 import { createI18n } from 'vue-i18n'
-import elementZh from 'element-plus/dist/locale/zh-cn.mjs'
+// import elementZh from 'element-plus/dist/locale/zh-cn.mjs'
 import { merge } from 'lodash-unified'
 import { zhCn } from '@setaria-components/locale'
 import VPApp, { NotFound, globals } from '../vitepress'
@@ -25,8 +25,8 @@ export default define<Theme>({
       fallbackLocale: 'zh-cn',
       silentTranslationWarn: true, // 关闭警告
       messages: {
-        'zh-cn': merge(elementZh, zhCn),
-        'en-us': merge(elementZh, zhCn),
+        'zh-cn': merge(zhCn),
+        'en-us': merge(zhCn),
       }, // 设置语言环境信息
     })
     app.use(i18n)

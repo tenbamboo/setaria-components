@@ -44,4 +44,18 @@ export namespace SchemaTableEvents {
   export type FormClose = (currentFormData: any, controlStatus: string) => void
 
   export type FormClosed = (currentFormData: any, controlStatus: string) => void
+
+  export type OperButtons = (scope: any) => any[]
+
+  export type CanUpdateRow = (scope: any) => boolean
+
+  export type CanDeleteRow = (scope: any) => boolean
+
+  export type CanViewRow = (scope: any) => boolean
+
+  export type FormSave = (
+    data: any,
+    controlStatus: string,
+    formRef: any
+  ) => Promise<any>
 }

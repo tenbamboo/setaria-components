@@ -283,6 +283,7 @@ export default defineComponent({
           <VxeGrid
             // 比较重点的内容
             // edit-rules={innerRules}
+            // {...props}
             ref={xTable}
             data={innerDataListExcluedDel.value}
             columns={columnsBySchemaSorted.value}

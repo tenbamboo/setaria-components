@@ -71,7 +71,6 @@ schema-table-edit/form-save
 - 可通过`can-update-row`的行级别控制是否显示`修改`按钮
 - 可通过`can-delete-row`的行级别控制是否显示`删除`按钮
 - 可通过`can-view-row`的行级别控制是否显示`查看`按钮
-- 可通过`is-show-top-button`来控制顶部所有按钮是否显示
 
 :::demo
 
@@ -128,7 +127,6 @@ schema-table-edit/events
 | can-update-row           | 通过`行级别`控制是否显示`修改`数据相关按钮（需同时设置 label-mode 为 false）--需返回 Boolean 告知 | ^[Function]`(scope) => boolean`           | —      | 否   |
 | can-delete-row           | 通过`行级别`控制是否显示`删除`数据相关按钮（需同时设置 label-mode 为 false）--需返回 Boolean 告知 | ^[Function]`(scope) => boolean`           | —      | 否   |
 | can-view-row             | 通过`行级别`控制是否显示`查看`数据相关按钮（需同时设置 label-mode 为 false）--需返回 Boolean 告知 | ^[Function]`(scope) => boolean`           | —      | 否   |
-| is-show-top-button       | 是否显示表格顶部的按钮区域内容                                                                    | Boolean                                   | true   | 否   |
 | before-add-row           | 添加一行按钮点击时的回调函数，用于对添加数据进行默认值设定                                        | ^[Function]`(scope) => any`               | —      | 否   |
 | before-update-row        | 编辑一行按钮点击时的回调函数，用于对编辑数据进行默认值设定                                        | ^[Function]`(scope) => any`               | —      | 否   |
 | form-save                | 用户操作数据之后的回调，需返回 Promise 对象告知是否处理完成                                       | ^[Function]`(scope,flag) => Promise`      | —      | 否   |

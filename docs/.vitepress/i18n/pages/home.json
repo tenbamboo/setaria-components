@@ -51,7 +51,7 @@
     "21": "请通过此邮箱联系我们",
     "title_release": "Setaria Components 稳定版本即将发布",
     "title": "Setaria Components",
-    "title_sub": "基于 Element Plus与Json Schema的组件库",
+    "title_sub": "基于 Vue 3，面向设计师和开发者的组件库",
     "china_mirror": "国内镜像站点 🇨🇳",
     "discord": "Discord"
   }

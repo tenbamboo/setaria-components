@@ -84,6 +84,10 @@ export const schemaTablePropsReal = {
   mergeCells: {
     type: Function,
   },
+  // // 合并头部信息
+  // mergeHeaders: {
+  //   type: Function,
+  // },
   showFooter: {
     type: Boolean,
     default: false,
@@ -186,10 +190,10 @@ export const schemaTablePropsReal = {
   canViewRow: {
     type: Function,
   },
-  isShowTopButton: {
-    type: Boolean,
-    default: true,
-  },
+  // isShowTopButton: {
+  //   type: Boolean,
+  //   default: true,
+  // },
   /**
    * 新增一行按钮点击时的回调函数，用于对新增数据进行默认值设定
    */

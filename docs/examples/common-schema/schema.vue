@@ -1,23 +1,10 @@
 <template>
-  <sc-schema-table
-    ref="schemaTableRef"
-    :schema="schema"
-    :ui-schema="uiSchema"
-    :data="dataList"
-    :column-width="120"
-    :merge-cells="mergeCells"
-  />
-  <!-- -->
+  <div>打开代码查看具体内容</div>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type {
-  SchemaProps,
-  SchemaTableInstance,
-  SchemaUiPropsByTable,
-} from 'setaria-components'
-const schemaTableRef = ref<SchemaTableInstance>()
+import type { SchemaProps } from 'setaria-components'
 
 const schema = reactive<SchemaProps>({
   required: [],
@@ -105,31 +92,4 @@ const schema = reactive<SchemaProps>({
     },
   },
 })
-
-const uiSchema = reactive<Record<string, SchemaUiPropsByTable>>({
-  testString: {},
-  testNumber: {},
-})
-
-const dataList = Array.from({ length: 10 }).map((item, index) => {
-  return {
-    testString: `testString${index}`,
-    testDesc: `testDesc${index}`,
-    testNumber: index,
-    testDate: '2023-10-12',
-    testDateTime: '2023-10-12 10:10:10',
-    testCurrency: 11234 + index,
-    testSelect1: 't1',
-  }
-})
-
-const mergeCells = (val) => {
-  console.log('mergeCells', val)
-
-  return [
-    { row: 1, col: 1, rowspan: 3, colspan: 3 },
-    { row: 4, col: 4, rowspan: 3, colspan: 1 },
-    { row: 5, col: 0, rowspan: 2, colspan: 2 },
-  ]
-}
 </script>

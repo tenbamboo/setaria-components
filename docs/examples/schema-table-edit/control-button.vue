@@ -3,9 +3,6 @@
   <el-button @click="canUpdate = !canUpdate">控制修改按钮</el-button>
   <el-button @click="canDelete = !canDelete">控制删除按钮</el-button>
   <el-button @click="canView = !canView">控制查看按钮</el-button>
-  <el-button @click="isShowTopButton = !isShowTopButton"
-    >控制顶部按钮</el-button
-  >
   <sc-schema-table
     :data="dataList"
     :schema="schema"
@@ -13,7 +10,6 @@
     :show-oper="true"
     :show-column-setting="true"
     :selection-type="'checkbox'"
-    :is-show-top-button="isShowTopButton"
     :can-add="canAdd"
     :can-update="canUpdate"
     :can-delete="canDelete"
@@ -48,7 +44,6 @@ const canAdd = ref(true)
 const canDelete = ref(true)
 const canUpdate = ref(true)
 const canView = ref(true)
-const isShowTopButton = ref(true)
 
 const canUpdateRow = (scope) => {
   console.log(scope)

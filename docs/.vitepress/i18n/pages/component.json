@@ -334,7 +334,20 @@
     }
   },
   "zh-CN": {
-    "test": {
+    "commomSchema": {
+      "text": "Schema基础",
+      "children": [
+        {
+          "link": "/common-schema",
+          "text": "Schema"
+        },
+        {
+          "link": "/common-ui-schema",
+          "text": "Schema Ui"
+        }
+      ]
+    },
+    "schemaComponents": {
       "text": "Schema组件",
       "children": [
         {
@@ -350,7 +363,7 @@
           "text": "Schema Table"
         },
         {
-          "link": "/schema-table-edit",
+          "link": "/schema-edit-table",
           "text": "Schema Table For Edit"
         }
       ]

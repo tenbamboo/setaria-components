@@ -13,6 +13,10 @@
     <template #testCustomSlot="scope">
       <el-rate v-model="scope.data.testCustomSlot" />
     </template>
+
+    <template #batchControl>
+      <el-link :underline="false" type="primary"> 自定义顶部按钮 </el-link>
+    </template>
   </sc-schema-table>
   <!-- -->
 </template>

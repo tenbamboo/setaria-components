@@ -57,6 +57,7 @@ export const isActiveLink = (
 }
 
 export const isActiveLinkByIncludes = (route: Route, path: string) => {
+  console.log(path, normalize(`/${route.data.relativePath}`))
   return path.includes(normalize(`/${route.data.relativePath}`))
 }
 

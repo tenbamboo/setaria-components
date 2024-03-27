@@ -129,7 +129,10 @@ schema-table/tree
 
 ## 自定义插槽
 
-:::demo 可通过设置`[字段名]`插槽来自定义显示，并配合`scope.data`获取当前行的相关数据
+- 可通过设置`[字段名]`插槽来自定义显示，并配合`scope.data`获取当前行的相关数据
+- 可通过`batchControl`插槽来自定义表格顶部按钮内容
+
+:::demo
 
 schema-table/slots
 

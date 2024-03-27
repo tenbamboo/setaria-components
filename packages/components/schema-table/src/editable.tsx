@@ -480,12 +480,18 @@ export const useEditable = (
 
     return {
       topButtonRender: () => {
-        if (props.labelMode === false || props.isShowTopButton === true) {
+        if (props.labelMode === false) {
           return (
             <div class="sc-schema-table_top-area-left-button">
               {getTopButton()}
               {slots?.batchControl ? slots?.batchControl() : null}
               {getTopButtonByAfter()}
+            </div>
+          )
+        } else {
+          return (
+            <div class="sc-schema-table_top-area-left-button">
+              {slots?.batchControl ? slots?.batchControl() : null}
             </div>
           )
         }

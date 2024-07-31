@@ -87,11 +87,7 @@ export default defineComponent({
     const { columnSettingRender, columnsBySchemaSorted, initColumnSetting } =
       useColumnSetting(xTable, props, emit)
 
-    const { rightButtonRender, isFullScreen } = useRightButton(
-      xTable,
-      props,
-      emit
-    )
+    const { rightButtonRender, isFullScreen } = useRightButton(xTable, props)
 
     const { setOperColumn, detailFormRender, topButtonRender } = useEditable(
       props,

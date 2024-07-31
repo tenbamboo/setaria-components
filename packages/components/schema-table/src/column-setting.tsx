@@ -354,26 +354,6 @@ export const useColumnSetting = (
               />
             </ElPopover>
           </div>
-          // <VxePager
-          //   size="small"
-          //   background
-          //   current-page={innerCurrentPage.value}
-          //   layouts={props.pageLayouts}
-          //   page-size={innerPageSize.value}
-          //   page-sizes={innerPageSizes.value}
-          //   total={innerPageTotal.value}
-          //   onPageChange={onPageChange}
-          //   {...{
-          //     'onUpdate:pageSize': (val: any) => {
-          //       innerPageSize.value = val
-          //       emit('update:pageSize', val)
-          //     },
-          //     'onUpdate:currentPage': (val: any) => {
-          //       innerCurrentPage.value = val
-          //       emit('update:pageNum', val)
-          //     },
-          //   }}
-          // />
         )
       }
       return null

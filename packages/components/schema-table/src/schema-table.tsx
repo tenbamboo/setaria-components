@@ -8,6 +8,8 @@ import { SchemaTableEditType, schemaTableProps } from './props'
 import { usePager } from './pager'
 import { useSelection } from './selection'
 import { useColumnSetting } from './column-setting'
+
+import { useRightButton } from './right-button'
 import { useEditable } from './editable'
 import type { SchemaProps } from '../../common-schema/schema.type'
 
@@ -84,6 +86,12 @@ export default defineComponent({
 
     const { columnSettingRender, columnsBySchemaSorted, initColumnSetting } =
       useColumnSetting(xTable, props, emit)
+
+    const { rightButtonRender, isFullScreen } = useRightButton(
+      xTable,
+      props,
+      emit
+    )
 
     const { setOperColumn, detailFormRender, topButtonRender } = useEditable(
       props,
@@ -249,6 +257,15 @@ export default defineComponent({
       return {}
     })
 
+    const innerWrapClass = computed(() => {
+      const cls: string[] = ['sc-schema-table']
+
+      if (isFullScreen.value) {
+        cls.push('sc-schema-table_maximize')
+      }
+      return cls.join(' ')
+    })
+
     const handlerSortChange: VxeTableEvents.SortChange = (val) => {
       emit('sort-change', val)
     }
@@ -275,10 +292,13 @@ export default defineComponent({
 
     return () => {
       return (
-        <div class="sc-schema-table">
+        <div class={innerWrapClass.value}>
           <div class="sc-schema-table_top-area">
             {topButtonRender()}
-            {columnSettingRender()}
+            <div class="sc-schema-table_top-area-right-button">
+              {rightButtonRender()}
+              {columnSettingRender()}
+            </div>
           </div>
           <VxeGrid
             // 比较重点的内容

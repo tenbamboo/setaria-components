@@ -29,6 +29,7 @@ export default {
       more: '更多',
       allColumns: '所有列',
       settingColumns: '列设置',
+      fullScreen: '全屏显示',
       save: '保存',
       cancel: '取消',
       update: '修改',

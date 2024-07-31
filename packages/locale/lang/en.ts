@@ -55,6 +55,7 @@ export default {
       more: 'More',
       allColumns: 'All Columns',
       settingColumns: 'Column Settings',
+      fullScreen: 'Full Screen',
       save: 'Save',
       cancel: 'Cancel',
       update: 'Update',

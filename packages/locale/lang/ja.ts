@@ -27,6 +27,7 @@ export default {
       more: 'もっと見る',
       allColumns: '全ての列',
       settingColumns: '列の設定',
+      fullScreen: 'フルスクリーン',
       save: '保存',
       cancel: 'キャンセル',
       update: '更新',

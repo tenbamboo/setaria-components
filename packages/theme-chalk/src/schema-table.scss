@@ -19,6 +19,19 @@
       margin-right: 5px;
     }
   }
+
+  &.sc-schema-table_maximize {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    z-index: 10000;
+    overflow-y: auto;
+    padding: 10px;
+    padding-bottom: 0;
+    background-color: #ffffff;
+  }
 }
 .sc-schema-table_top-area {
   display: flex;
@@ -30,6 +43,11 @@
     .el-link + .el-link {
       margin-left: 5px;
     }
+  }
+  .sc-schema-table_top-area-right-button {
+    display: flex;
+    gap: 5px;
+    align-items: center;
   }
 }
 .sc-schema-table_editable-wrap-component {

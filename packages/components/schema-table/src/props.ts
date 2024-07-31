@@ -146,6 +146,10 @@ export const schemaTablePropsReal = {
     type: Boolean,
     default: false,
   },
+  showFullScreen: {
+    type: Boolean,
+    default: true,
+  },
   operWidth: {
     type: [Number, String],
     default: '120px',

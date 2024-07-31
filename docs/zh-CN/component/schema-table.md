@@ -227,6 +227,7 @@ schema-table/column-setting
 | show-column-setting      | 是否显示列设置功能                                         | Boolean                                                                                                          | false  | 否   |
 | column-setting-draggable | 列设置是否开启可拖拽功能                                   | Boolean                                                                                                          | false  | 否   |
 | row-key                  | 数据行唯一标识字段                                         | String                                                                                                           | —      | 否   |
+| show-full-screen         | 是否线上全屏 Icon 功能                                     | Boolean                                                                                                          | true   | 否   |
 
 ### SchemaTable Events
 

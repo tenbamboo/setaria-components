@@ -17,7 +17,7 @@
     "@vueuse/core": "^9.1.0",
     "axios": "^0.27.2",
     "clipboard-copy": "^4.0.1",
-    "element-plus": "2.4.1",
+    "element-plus": "2.7.8",
     "lodash-unified": "^1.0.2",
     "markdown-it": "^13.0.1",
     "normalize.css": "^8.0.1",
@@ -26,7 +26,7 @@
     "setaria-components": "npm:setaria-components@latest",
     "vue": "^3.2.37",
     "vue-i18n": "9.8.0",
-    "vxe-table": "^4.5.13",
+    "vxe-table": "^4.7.59",
     "xe-utils": "^3.5.13"
   },
   "devDependencies": {

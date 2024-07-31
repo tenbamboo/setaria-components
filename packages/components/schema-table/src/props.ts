@@ -120,17 +120,10 @@ export const schemaTablePropsReal = {
     type: Boolean,
     default: false,
   },
-  pageLayouts: {
-    type: Array,
+  pageLayout: {
+    type: String,
     default() {
-      return [
-        'Total',
-        'Sizes',
-        'PrevPage',
-        'JumpNumber',
-        'NextPage',
-        'FullJump',
-      ]
+      return 'total,prev,pager,next,sizes,jumper'
     },
   },
   // 当前页号

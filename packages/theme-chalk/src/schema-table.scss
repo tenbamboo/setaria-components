@@ -14,7 +14,7 @@
       margin-left: 5px;
     }
   }
-  .sc-schema-table_column-setting-trigger {
+  .sc-schema-table_top-area-right-button {
     i {
       margin-right: 5px;
     }
@@ -31,6 +31,11 @@
     padding: 10px;
     padding-bottom: 0;
     background-color: #ffffff;
+  }
+  .el-pagination {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 .sc-schema-table_top-area {

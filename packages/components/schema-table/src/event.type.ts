@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import type { VxePagerDefines, VxeTableDefines } from 'vxe-table'
+import type { VxeTableDefines } from 'vxe-table'
 export namespace SchemaTableEvents {
   export type DataChange = (
     schemaKey: string,
@@ -15,9 +15,7 @@ export namespace SchemaTableEvents {
     params: VxeTableDefines.SortChangeEventParams<D>
   ) => void
 
-  export type PageChange = (
-    params: VxePagerDefines.PageChangeEventParams
-  ) => void
+  export type PageChange = (currentPage: number, pageSize: number) => void
 
   export type CellClick<D = any> = (
     params: VxeTableDefines.CellClickEventParams<D>

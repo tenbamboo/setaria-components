@@ -132,7 +132,10 @@ const dataList = Array.from({ length: 10 }).map((item, index) => {
     testCustomSlot: 2,
   }
 })
-const handlePageChange: SchemaTableEvents.PageChange = (val) => {
-  console.log('handlePageChange', val, pageNum.value, pageSize.value)
+const handlePageChange: SchemaTableEvents.PageChange = (
+  currentPage: number,
+  pageSize: number
+) => {
+  console.log('handlePageChange', currentPage, pageSize)
 }
 </script>

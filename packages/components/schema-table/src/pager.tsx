@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { ref, watch } from 'vue'
 
-import { VxePager } from 'vxe-table'
-import type { VxePagerEvents } from 'vxe-table'
+import { ElPagination } from 'element-plus'
 const DEFAULT_PAGE_SIZE = 10
 const DEFAULT_PAGE_SIZES = [10, 20, 50, 100]
 export const usePager = (
@@ -54,15 +53,15 @@ export const usePager = (
     }
   )
 
-  const onPageChange: VxePagerEvents.PageChange = (val: any) => {
-    const { currentPage, pageSize } = val
+  const onPageChange = (currentPage: number, pageSize: number) => {
+    // const { currentPage, pageSize } = val
     innerCurrentPage.value = currentPage
     innerPageSize.value = pageSize
 
     if (!props.isReserve) {
       handlerSelectionChange([])
     }
-    emit('page-change', val)
+    emit('page-change', currentPage, pageSize)
   }
 
   return {
@@ -73,15 +72,15 @@ export const usePager = (
     pagerRender: () => {
       if (props.showPage) {
         return (
-          <VxePager
+          <ElPagination
             size="small"
             background
             current-page={innerCurrentPage.value}
-            layouts={props.pageLayouts}
+            layout={props.pageLayout}
             page-size={innerPageSize.value}
             page-sizes={innerPageSizes.value}
             total={innerPageTotal.value}
-            onPageChange={onPageChange}
+            onChange={onPageChange}
             {...{
               'onUpdate:pageSize': (val: any) => {
                 innerPageSize.value = val
@@ -93,6 +92,27 @@ export const usePager = (
               },
             }}
           />
+
+          // <VxePager
+          //   size="small"
+          //   background
+          //   current-page={innerCurrentPage.value}
+          //   layouts={props.pageLayouts}
+          //   page-size={innerPageSize.value}
+          //   page-sizes={innerPageSizes.value}
+          //   total={innerPageTotal.value}
+          //   onPageChange={onPageChange}
+          //   {...{
+          //     'onUpdate:pageSize': (val: any) => {
+          //       innerPageSize.value = val
+          //       emit('update:pageSize', val)
+          //     },
+          //     'onUpdate:currentPage': (val: any) => {
+          //       innerCurrentPage.value = val
+          //       emit('update:pageNum', val)
+          //     },
+          //   }}
+          // />
         )
       }
       return null

@@ -80,14 +80,14 @@ export const usePager = (
             page-size={innerPageSize.value}
             page-sizes={innerPageSizes.value}
             total={innerPageTotal.value}
-            onChange={onPageChange}
+            // onChange={onPageChange}
             {...{
               'onUpdate:pageSize': (val: any) => {
-                innerPageSize.value = val
+                onPageChange(innerCurrentPage.value, val)
                 emit('update:pageSize', val)
               },
               'onUpdate:currentPage': (val: any) => {
-                innerCurrentPage.value = val
+                onPageChange(val, innerPageSize.value)
                 emit('update:pageNum', val)
               },
             }}

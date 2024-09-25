@@ -72,7 +72,7 @@
   ],
   "peerDependencies": {
     "element-plus": "2.7.8",
-    "vue": "^3.3.0",
+    "vue": "^3.4.35",
     "vxe-table": "^4.7.59",
     "xe-utils": "^3.5.13"
   },

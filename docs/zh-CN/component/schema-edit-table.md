@@ -11,7 +11,7 @@ lang: zh-CN
 
 :::demo 如想开启编辑模式需`label-mode`设置为`false`
 
-schema-table-edit/basic
+schema-edit-table/basic
 
 :::
 
@@ -22,7 +22,7 @@ schema-table-edit/basic
 
 :::demo
 
-schema-table-edit/before-oper-data
+schema-edit-table/before-oper-data
 
 :::
 
@@ -33,7 +33,7 @@ schema-table-edit/before-oper-data
 
 :::demo
 
-schema-table-edit/form-rules
+schema-edit-table/form-rules
 
 :::
 
@@ -46,7 +46,7 @@ schema-table-edit/form-rules
 
 :::demo
 
-schema-table-edit/slots
+schema-edit-table/slots
 
 :::
 
@@ -56,7 +56,7 @@ schema-table-edit/slots
 
 :::demo
 
-schema-table-edit/form-save
+schema-edit-table/form-save
 
 :::
 
@@ -74,7 +74,7 @@ schema-table-edit/form-save
 
 :::demo
 
-schema-table-edit/control-button
+schema-edit-table/control-button
 
 :::
 
@@ -86,7 +86,7 @@ schema-table-edit/control-button
 
 :::demo
 
-schema-table-edit/form-wrap-component
+schema-edit-table/form-wrap-component
 
 :::
 
@@ -96,7 +96,7 @@ schema-table-edit/form-wrap-component
 
 :::demo
 
-schema-table-edit/schema-ui
+schema-edit-table/schema-ui
 
 :::
 
@@ -107,7 +107,7 @@ schema-table-edit/schema-ui
 
 :::demo
 
-schema-table-edit/events
+schema-edit-table/events
 
 :::
 

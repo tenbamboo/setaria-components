@@ -25,12 +25,8 @@ export const searchFormProps = buildProps({
     type: Boolean,
     default: false,
   },
-  forceCollapseItems: {
-    type: Number,
-  },
-  submitting: {
-    type: Function,
-  },
+  forceCollapseItems: Number,
+  submitting: Function,
 } as const)
 
 export type SearchFormProps = ExtractPropTypes<typeof searchFormProps>

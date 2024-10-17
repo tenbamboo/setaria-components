@@ -221,6 +221,7 @@ export default defineComponent({
         {
           isCurrent: true,
           isHover: true,
+          keyField: props.rowKey,
         },
         props.rowConfig
       )

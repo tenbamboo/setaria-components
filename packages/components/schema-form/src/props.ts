@@ -11,10 +11,16 @@ export const schemaFormProps = buildProps({
   modelValue: {
     type: Object as PropType<Record<string, any>>,
     required: true,
+    default() {
+      return null
+    },
   },
   schema: {
     type: Object as PropType<SchemaProps>,
     required: true,
+    default() {
+      return null
+    },
   },
   uiSchema: {
     type: Object as PropType<Record<string, SchemaUiProps>>,

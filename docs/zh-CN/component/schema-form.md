@@ -65,7 +65,7 @@ schema-form/slots
 | modelValue(v-model) | 表单项值           | ^[Object]`Record<string, any>` | —      | 是   |
 | ui-schema           | 表单项 UI 相关描述 | ^[Object]`Record<string, any>` | —      | 否   |
 | rules               | 表单项验证规则     | ^[Object]`FormRules`           | —      | 否   |
-| columns             | 表单项的列数       | Number                         | 5      | 否   |
+| columns             | 表单项的列数       | Number                         | 3      | 否   |
 
 ### SchemaForm Events
 

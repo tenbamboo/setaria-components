@@ -68,6 +68,11 @@
     margin-bottom: 0;
     padding-bottom: 20px;
   }
+  .el-dialog__body {
+    & > .sc-schema-form {
+      margin-top: 16px;
+    }
+  }
 }
 .sc-schema-table_column-setting-tree {
   .sc-schema-table_column-setting-check-all {

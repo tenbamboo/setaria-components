@@ -1,17 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { computed, nextTick, reactive, ref } from 'vue'
-import {
-  ElCheckbox,
-  ElIcon,
-  ElLink,
-  ElPopover,
-  ElTree,
-  useLocale,
-} from 'element-plus'
+import { ElCheckbox, ElIcon, ElLink, ElPopover, ElTree } from 'element-plus'
 import { Rank, Setting } from '@element-plus/icons-vue'
 import { remove, uniq } from 'lodash-unified'
 import XEUtils from 'xe-utils'
-// import { useLocale } from '@setaria-components/hooks'
+import { useLocale } from '@setaria-components/hooks'
 import type { CheckboxValueType } from 'element-plus'
 import type { Ref } from 'vue'
 import type { VxeGridInstance } from 'vxe-table'

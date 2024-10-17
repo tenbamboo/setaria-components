@@ -31,7 +31,7 @@ export const schemaFormProps = buildProps({
   columns: {
     type: [String, Number],
     default: () => {
-      return 4
+      return 3
     },
   },
 } as const)

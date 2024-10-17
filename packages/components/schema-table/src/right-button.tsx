@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { ref } from 'vue'
-import { ElLink, useLocale } from 'element-plus'
+import { ElLink } from 'element-plus'
 import { FullScreen } from '@element-plus/icons-vue'
+import { useLocale } from '@setaria-components/hooks'
 // import { remove, uniq } from 'lodash-unified'
 // import XEUtils from 'xe-utils'
 // import { useLocale } from '@setaria-components/hooks'

@@ -149,6 +149,7 @@ const handlerChange = (key, value, model) => {
   console.log('change', key, value, model)
 }
 const formSubmitting = (model) => {
+  console.log('bingogogogog')
   // 这里模拟一个接口的返回
   return new Promise((resolve) => {
     setTimeout(() => {

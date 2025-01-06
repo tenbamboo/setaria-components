@@ -218,19 +218,19 @@ export const schemaTableProps = buildProps({
   canUpdateRow: {
     type: Function,
     default() {
-      return null
+      return true
     },
   },
   canDeleteRow: {
     type: Function,
     default() {
-      return null
+      return true
     },
   },
   canViewRow: {
     type: Function,
     default() {
-      return null
+      return true
     },
   },
   isShowTopButton: {

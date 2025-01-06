@@ -123,10 +123,10 @@ schema-edit-table/events
 | can-add                  | 是否显示`添加`数据相关按钮（需同时设置 label-mode 为 false）                                      | Boolean                                   | true   | 否   |
 | can-update               | 是否显示`修改`数据相关按钮（需同时设置 label-mode 为 false）                                      | Boolean                                   | true   | 否   |
 | can-delete               | 是否显示`删除`数据相关按钮（需同时设置 label-mode 为 false）                                      | Boolean                                   | true   | 否   |
-| can-delete               | 是否显示`查看`数据相关按钮（需同时设置 label-mode 为 false）                                      | Boolean                                   | false  | 否   |
+| can-view                 | 是否显示`查看`数据相关按钮（需同时设置 label-mode 为 true）                                       | Boolean                                   | false  | 否   |
 | can-update-row           | 通过`行级别`控制是否显示`修改`数据相关按钮（需同时设置 label-mode 为 false）--需返回 Boolean 告知 | ^[Function]`(scope) => boolean`           | —      | 否   |
 | can-delete-row           | 通过`行级别`控制是否显示`删除`数据相关按钮（需同时设置 label-mode 为 false）--需返回 Boolean 告知 | ^[Function]`(scope) => boolean`           | —      | 否   |
-| can-view-row             | 通过`行级别`控制是否显示`查看`数据相关按钮（需同时设置 label-mode 为 false）--需返回 Boolean 告知 | ^[Function]`(scope) => boolean`           | —      | 否   |
+| can-view-row             | 通过`行级别`控制是否显示`查看`数据相关按钮（需同时设置 label-mode 为 true）--需返回 Boolean 告知  | ^[Function]`(scope) => boolean`           | —      | 否   |
 | before-add-row           | 添加一行按钮点击时的回调函数，用于对添加数据进行默认值设定                                        | ^[Function]`(scope) => any`               | —      | 否   |
 | before-update-row        | 编辑一行按钮点击时的回调函数，用于对编辑数据进行默认值设定                                        | ^[Function]`(scope) => any`               | —      | 否   |
 | form-save                | 用户操作数据之后的回调，需返回 Promise 对象告知是否处理完成                                       | ^[Function]`(scope,flag) => Promise`      | —      | 否   |

@@ -273,9 +273,11 @@ export const useColumnSetting = (
     const ret = (
       <div class="sc-schema-table_column-setting-tree-node">
         <span>{node.data.title}</span>
-        <ElIcon>
-          <Rank />
-        </ElIcon>
+        {props.columnSettingDraggable && (
+          <ElIcon>
+            <Rank />
+          </ElIcon>
+        )}
       </div>
     )
     return ret

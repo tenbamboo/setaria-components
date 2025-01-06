@@ -398,7 +398,7 @@ export const useEditable = (
       return new Promise((resolve, reject) => {
         ElMessageBox.confirm(
           t('sc.schemaTable.confirmDelete'),
-          t('sc.commom.tip'),
+          t('sc.common.tip'),
           {
             type: 'warning',
           }
@@ -431,7 +431,7 @@ export const useEditable = (
             callFormSave(deleteList, afterExec)
           })
           .catch(() => {
-            reject()
+            // reject()
           })
       })
     }
@@ -468,6 +468,7 @@ export const useEditable = (
         return (
           <ElLink
             underline={false}
+            disabled={!selectionList.value?.length}
             type="primary"
             onClick={handlerBatchDeleteTableRow}
           >
@@ -495,7 +496,6 @@ export const useEditable = (
             </div>
           )
         }
-        return <div></div>
       },
       detailFormRender: () => {
         return getWrapComponent()

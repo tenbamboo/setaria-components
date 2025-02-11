@@ -7,6 +7,7 @@
     "target": "ES5",
     "lib": ["ES5", "DOM"],
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "esModuleInterop": true
   }
 }

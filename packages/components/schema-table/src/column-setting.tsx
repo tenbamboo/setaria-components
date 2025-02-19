@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { computed, nextTick, reactive, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { ElCheckbox, ElIcon, ElLink, ElPopover, ElTree } from 'element-plus'
 import { Rank, Setting } from '@element-plus/icons-vue'
-import { remove, uniq } from 'lodash-unified'
+import { cloneDeep, remove, uniq } from 'lodash-unified'
 import XEUtils from 'xe-utils'
 import { useLocale } from '@setaria-components/hooks'
 import type { CheckboxValueType } from 'element-plus'
@@ -16,15 +16,24 @@ export const useColumnSetting = (
   xTable: Ref<VxeGridInstance | undefined>,
   props: any,
   emit: Function
-  // columnsBySchema: any[]
+  // columnsBySchemaStatic: any[]
 ) => {
   const { t } = useLocale()
   const isIndeterminate = ref<boolean>(false)
   const isAllChecked = ref<boolean>(false)
   let checkedKeys = reactive<Array<any>>([])
   const columnsBySchemaSorted = ref<any[]>([]) //reactive<Array<any>>([])
-  let columnsBySchema: any[] = []
+  let columnsBySchemaStatic: any[] = []
   const treeRef = ref<InstanceType<typeof ElTree>>()
+  const treeData = ref<any[]>([])
+
+  // computed<Array<any>>(() => {
+  //   return columnsBySchemaSorted.value.filter(
+  //     // 把序号列和操作列和勾选功能隐藏
+  //     (item: any) =>
+  //       !['operation', 'seq', 'checkbox', 'radio'].includes(item.type)
+  //   )
+  // })
 
   // 获取当前列的是否可见
   const getColumnVisible = (field: string) => {
@@ -35,7 +44,7 @@ export const useColumnSetting = (
       }
     }
 
-    const findObj = columnsBySchema.find((item) => item.field === field)
+    const findObj = columnsBySchemaStatic.find((item) => item.field === field)
     if (findObj) {
       return findObj.visible
     }
@@ -129,28 +138,37 @@ export const useColumnSetting = (
     if (sortKeys && sortKeys.length) {
       const newSchema: any[] = []
       sortKeys.forEach((field: string) => {
-        const findObj = columnsBySchema.find(
-          (item: any) => item.field === field
+        const findObj = cloneDeep(
+          columnsBySchemaStatic.find((item: any) => item.field === field)
         )
+
         if (findObj) {
+          const findChecked = checkedKeys.find(
+            (field: string) => findObj.field === field
+          )
+          if (findChecked) {
+            findObj.visible = true
+          } else {
+            findObj.visible = false
+          }
           newSchema.push(findObj)
         }
       })
-      const operColumn = columnsBySchema.find((item: any) =>
+      const operColumn = columnsBySchemaStatic.find((item: any) =>
         ['operation'].includes(item.type)
       )
       if (operColumn) {
         newSchema.push(operColumn)
       }
 
-      const selectionColumn = columnsBySchema.find((item: any) =>
+      const selectionColumn = columnsBySchemaStatic.find((item: any) =>
         ['checkbox', 'radio'].includes(item.type)
       )
       if (selectionColumn) {
         newSchema.unshift(selectionColumn)
       }
 
-      const seqColumn = columnsBySchema.find((item: any) =>
+      const seqColumn = columnsBySchemaStatic.find((item: any) =>
         ['seq'].includes(item.type)
       )
       if (seqColumn) {
@@ -159,15 +177,25 @@ export const useColumnSetting = (
 
       columnsBySchemaSorted.value = newSchema
     } else {
-      columnsBySchemaSorted.value = columnsBySchema
+      columnsBySchemaSorted.value = columnsBySchemaStatic
     }
+
+    // treeData.value = columnsBySchemaSorted.value.filter(
+    //   // 把序号列和操作列和勾选功能隐藏
+    //   (item: any) =>
+    //     !['operation', 'seq', 'checkbox', 'radio'].includes(item.type)
+    // )
   }
 
   // 初始化排序内容
   const initColumnSetting = (_columnsBySchema: any) => {
-    columnsBySchema = _columnsBySchema
-
-    checkedKeys = columnsBySchema
+    columnsBySchemaStatic = _columnsBySchema
+    treeData.value = _columnsBySchema.filter(
+      // 把序号列和操作列和勾选功能隐藏
+      (item: any) =>
+        !['operation', 'seq', 'checkbox', 'radio'].includes(item.type)
+    )
+    checkedKeys = columnsBySchemaStatic
       .filter((item: any) => item.visible)
       .map((item: any) => item.field)
 
@@ -185,16 +213,9 @@ export const useColumnSetting = (
       refreshCheckAllStatus()
     })
   }
-  const treeData = computed<Array<any>>(() => {
-    return columnsBySchemaSorted.value.filter(
-      // 把序号列和操作列和勾选功能隐藏
-      (item: any) =>
-        !['operation', 'seq', 'checkbox', 'radio'].includes(item.type)
-    )
-  })
 
   // watch(
-  //   () => columnsBySchema,
+  //   () => columnsBySchemaStatic,
   //   (val) => {
 
   //     initColumnSetting()
@@ -240,6 +261,14 @@ export const useColumnSetting = (
     const list = treeData.value.map((item: any) => {
       return item.field
     })
+    // .filter((field: string) => {
+    //   const column = xTable.value?.getColumnByField(field)
+    //   if (column) {
+    //     return column.visible
+    //   }
+    //   return false
+    //   //   return getColumnVisible(field)
+    // })
 
     setSchemaBySort(list)
     // // 保存自定义的拖拽表格列信息

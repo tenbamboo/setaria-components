@@ -12,5 +12,5 @@
 ## 其他链接
 
 - Setaria Components UI 框架(https://tenbamboo.github.io/setaria-components/zh-CN/)
-- 使用 Element Plus Setaria Components 等企业级工具的项目模版(https://github.com/tenbamboo/setaria-business-project-template)
-- 使用 Element Plus Setaria Components 等企业级工具的项目模版ByJs(https://github.com/tenbamboo/setaria-business-project-template-js)
+- 使用 Element Plus Setaria Components TS 等企业级工具的项目模版(https://github.com/tenbamboo/setaria-business-project-template)
+- 使用 Element Plus Setaria Components JS 等企业级工具的项目模版 ByJs(https://github.com/tenbamboo/setaria-business-project-template-js)

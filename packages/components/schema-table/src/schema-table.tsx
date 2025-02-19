@@ -37,6 +37,10 @@ export default defineComponent({
     'column-setting-hide',
     'column-setting-visible-change',
     'column-setting-sort-change',
+    'form-open',
+    'form-opened',
+    'form-close',
+    'form-closed',
   ],
 
   setup(props, { slots, emit, expose }) {

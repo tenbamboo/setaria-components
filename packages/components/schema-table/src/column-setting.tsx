@@ -190,11 +190,12 @@ export const useColumnSetting = (
   // 初始化排序内容
   const initColumnSetting = (_columnsBySchema: any) => {
     columnsBySchemaStatic = _columnsBySchema
-    treeData.value = _columnsBySchema.filter(
-      // 把序号列和操作列和勾选功能隐藏
-      (item: any) =>
-        !['operation', 'seq', 'checkbox', 'radio'].includes(item.type)
-    )
+    treeData.value = _columnsBySchema
+    // .filter(
+    //   // 把序号列和操作列和勾选功能隐藏
+    //   (item: any) =>
+    //     !['operation', 'seq', 'checkbox', 'radio'].includes(item.type)
+    // )
     checkedKeys = columnsBySchemaStatic
       .filter((item: any) => item.visible)
       .map((item: any) => item.field)
@@ -203,6 +204,12 @@ export const useColumnSetting = (
       const sortKeys = getCustomStorageMap(dragSortStorageKey)[props.tableId]
       if (sortKeys) {
         setSchemaBySort(sortKeys.split(','))
+        // 如果有排序的历史数据，那么就需要将历史数据拿过来
+        treeData.value = cloneDeep(columnsBySchemaSorted.value).filter(
+          // 把序号列和操作列和勾选功能隐藏
+          (item: any) =>
+            !['operation', 'seq', 'checkbox', 'radio'].includes(item.type)
+        )
       } else {
         setSchemaBySort()
       }

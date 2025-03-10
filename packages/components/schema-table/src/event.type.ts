@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import type { VxeTableDefines } from 'vxe-table'
 export namespace SchemaTableEvents {
-  export type DataChange = (
-    schemaKey: string,
-    val: string | number,
-    model: any
-  ) => void
-
   export type SelectionChange = (list: any[], currentOperItem?: any) => void
 
   export type SelectionAll = (list: any[]) => void

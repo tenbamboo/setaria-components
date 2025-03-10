@@ -111,6 +111,16 @@ schema-edit-table/events
 
 :::
 
+## 数据变更事件
+
+- 可通过`form-data-change`回调来监控数据变更
+
+:::demo
+
+schema-edit-table/form-data-change
+
+:::
+
 ## SchemaTable API
 
 ### SchemaTable Attributes
@@ -140,12 +150,13 @@ schema-edit-table/events
 
 - 相关基础事件请查看`SchemaTable`组件
 
-  | 名称        | 说明                         | 类型                                                 |
-  | ----------- | ---------------------------- | ---------------------------------------------------- |
-  | form-open   | 明细组件打开的回调           | ^[Function]`(currentFormData,controlStatus) => void` |
-  | form-opened | 明细组件打开动画结束时的回调 | ^[Function]`(currentFormData,controlStatus) => void` |
-  | form-close  | 明细组件关闭的回调           | ^[Function]`(currentFormData,controlStatus) => void` |
-  | form-closed | 明细组件关闭动画结束时的回调 | ^[Function]`(currentFormData,controlStatus) => void` |
+  | 名称             | 说明                         | 类型                                                 |
+  | ---------------- | ---------------------------- | ---------------------------------------------------- |
+  | form-open        | 明细组件打开的回调           | ^[Function]`(currentFormData,controlStatus) => void` |
+  | form-opened      | 明细组件打开动画结束时的回调 | ^[Function]`(currentFormData,controlStatus) => void` |
+  | form-close       | 明细组件关闭的回调           | ^[Function]`(currentFormData,controlStatus) => void` |
+  | form-closed      | 明细组件关闭动画结束时的回调 | ^[Function]`(currentFormData,controlStatus) => void` |
+  | form-data-change | 明细组件表单项数据值变更回调 | ^[Function]`(schemaKey, val, model) => void`         |
 
 ### SchemaTable Exposes
 

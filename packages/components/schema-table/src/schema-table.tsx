@@ -41,6 +41,7 @@ export default defineComponent({
     'form-opened',
     'form-close',
     'form-closed',
+    'form-data-change',
   ],
 
   setup(props, { slots, emit, expose }) {

@@ -45,6 +45,7 @@
   align-items: center;
 
   .sc-schema-table_top-area-left-button {
+    display: flex;
     .el-link + .el-link {
       margin-left: 5px;
     }

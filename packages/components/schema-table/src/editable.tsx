@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/ban-types */
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 import {
   ElButton,
   ElDescriptions,
@@ -28,7 +28,10 @@ import {
   looseEqual,
 } from '../../common-schema/utils'
 import type { Ref, Slots } from 'vue'
-import type { SchemaFormInstance } from '@setaria-components/components/schema-form'
+import type {
+  SchemaFormEvents,
+  SchemaFormInstance,
+} from '@setaria-components/components/schema-form'
 import type { VxeGridInstance } from 'vxe-table'
 
 export declare interface EditableConfig {
@@ -220,6 +223,7 @@ export const useEditable = (
     }
 
     const handerWrapComponentOpened = () => {
+      formRef.value?.clearValidate()
       emit('form-opened', currentFormData.value, controlStatus.value)
     }
 
@@ -296,6 +300,25 @@ export const useEditable = (
         })
         uiSchema = res
       })
+      watch(
+        () => [props.schema.required, props.formRules],
+        () => {
+          //
+          formRef.value?.clearValidate()
+        },
+        {
+          deep: true,
+          immediate: true,
+        }
+      )
+
+      const handlerDataChnage: SchemaFormEvents.DataChange = (
+        schemaKey,
+        val,
+        model
+      ) => {
+        emit('form-data-change', schemaKey, val, model)
+      }
 
       return (
         <ScSchemaForm
@@ -307,6 +330,7 @@ export const useEditable = (
           schema={props.schema}
           ui-schema={uiSchema}
           rules={props.formRules}
+          onData-change={handlerDataChnage}
         >
           {{
             ...customSlots,
